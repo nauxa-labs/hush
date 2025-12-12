@@ -208,12 +208,12 @@ class PomodoroTimer {
   updateButtonState() {
     if (this.isRunning) {
       this.startBtnText.textContent = 'Pause';
-      this.iconPlay.style.display = 'none';
-      this.iconPause.style.display = 'block';
+      if (this.iconPlay) this.iconPlay.style.display = 'none';
+      if (this.iconPause) this.iconPause.style.display = 'block';
     } else {
-      this.startBtnText.textContent = 'Mulai';
-      this.iconPlay.style.display = 'block';
-      this.iconPause.style.display = 'none';
+      this.startBtnText.textContent = 'Start';
+      if (this.iconPlay) this.iconPlay.style.display = 'block';
+      if (this.iconPause) this.iconPause.style.display = 'none';
     }
   }
 
