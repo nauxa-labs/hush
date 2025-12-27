@@ -1,0 +1,139 @@
+/* File: css/components/sidebar.css */
+
+.sidebar__header {
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-md);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.sidebar__logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.sidebar__title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all var(--transition-normal);
+}
+
+/* Show title only when expanded */
+.sidebar:hover .sidebar__title,
+.sidebar:not(.collapsed) .sidebar__title {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.sidebar__section {
+  padding: var(--space-md);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.sidebar__section-header {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-xs);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar__workspace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar__workspace-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 8px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  color: var(--text-secondary);
+}
+
+.sidebar__workspace-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.sidebar__workspace-item.active {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--color-accent);
+}
+
+.sidebar__workspace-icon {
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.sidebar__workspace-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--font-size-sm);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.sidebar:hover .sidebar__workspace-name,
+.sidebar:not(.collapsed) .sidebar__workspace-name {
+  opacity: 1;
+}
+
+.sidebar__add-workspace {
+  margin-top: var(--space-sm);
+  padding: 8px;
+}
+
+.sidebar__divider {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 0;
+}
+
+.sidebar__tools {
+  padding: var(--space-md);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.sidebar__tool-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+}
+
+.sidebar__tool-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}

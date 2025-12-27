@@ -1,0 +1,76 @@
+.task-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  position: relative;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.task-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.task-card__header {
+  margin-bottom: 8px;
+}
+
+.task-card__title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.task-card__meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.task-card__actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: none;
+  gap: 4px;
+}
+
+.task-card:hover .task-card__actions {
+  display: flex;
+}
+
+.task-card__action {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.task-card__action:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.task-card__action[data-action="focus"] {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.task-card__action[data-action="focus"]:hover {
+  background: rgba(34, 197, 94, 0.4);
+}
+
+.task-card__action[data-action="delete"]:hover {
+  background: rgba(239, 68, 68, 0.3);
+}

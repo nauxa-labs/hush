@@ -1,0 +1,21 @@
+{
+  "name": "Hush Focus OS",
+  "short_name": "Hush",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#18181b",
+  "description": "Your distraction-free focus workspace.",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
