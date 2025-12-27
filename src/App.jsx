@@ -1,4 +1,5 @@
 import React from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AppShell } from './components/layout/AppShell';
 import { KanbanBoard } from './components/workspace/KanbanBoard';
 import { ListView } from './components/workspace/ListView';
@@ -10,15 +11,18 @@ function App() {
   const activeWs = workspaces.find(w => w.id === activeId);
 
   return (
-    <AppShell>
-      {activeWs && activeWs.viewMode === 'list' && <ListView />}
-      {activeWs && activeWs.viewMode === 'board' && <KanbanBoard />}
-      {!activeWs && (
-        <div className="flex h-full items-center justify-center text-text-muted">
-          Select or Create a Workspace
-        </div>
-      )}
-    </AppShell>
+    <>
+      <AppShell>
+        {activeWs && activeWs.viewMode === 'list' && <ListView />}
+        {activeWs && activeWs.viewMode === 'board' && <KanbanBoard />}
+        {!activeWs && (
+          <div className="flex h-full items-center justify-center text-text-muted">
+            Select or Create a Workspace
+          </div>
+        )}
+      </AppShell>
+      <SpeedInsights />
+    </>
   );
 }
 
