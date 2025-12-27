@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  /* === UHNW Dark Theme (Quiet Luxury) === */
+  body.glass_dark {
+    --bg: #0E0E0E;
+    --surface: #141414;
+    --panel: rgba(255, 255, 255, 0.03);
+    --card: rgba(255, 255, 255, 0.04);
+
+    --ink-primary: #E6E6E6;
+    --ink-secondary: #A8A8A8;
+    --ink-muted: #6F6F6F;
+
+    --gold-muted: #B8A46A;
+    /* ONLY for focus/selected */
+
+    --border-color: rgba(255, 255, 255, 0.06);
+    --radius: 12px;
+    --shadow-quiet: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+    --scroll-thumb: rgba(255, 255, 255, 0.08);
+    --scroll-thumb-hover: rgba(255, 255, 255, 0.12);
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+
+    /* === Glass Dark Specific: Button & Icon Contrast === */
+    --btn-border-subtle: rgba(255, 255, 255, 0.15);
+    --btn-border-active: rgba(255, 255, 255, 0.30);
+    --icon-on-bg: rgba(255, 255, 255, 0.5);
+    --icon-on-bg-hover: rgba(255, 255, 255, 0.9);
+    --toggle-border: rgba(255, 255, 255, 0.10);
+    --toggle-border-active: var(--gold-muted);
+  }
+
+  /* === Glass Light: Warm Luxury Under Daylight === */
+  body.glass_light {
+    --bg: #F7F3ED;
+    /* warm linen */
+    --surface: #EFE9E0;
+    /* soft cream */
+    --panel: rgba(255, 250, 245, 0.7);
+    --card: rgba(255, 252, 248, 0.85);
+
+    --ink-primary: #2C2520;
+    /* warm espresso ink */
+    --ink-secondary: #5C5347;
+    /* warm taupe */
+    --ink-muted: #918779;
+    /* soft clay */
+
+    --gold-muted: #A8915A;
+    /* warmer antique gold */
+
+    --border-color: rgba(60, 45, 30, 0.08);
+    --radius: 12px;
+    --shadow-architectural: 0 12px 32px rgba(45, 35, 25, 0.06);
+    --shadow-soft: 0 6px 16px rgba(45, 35, 25, 0.04);
+
+    --scroll-thumb: rgba(60, 45, 30, 0.12);
+    --scroll-thumb-hover: rgba(60, 45, 30, 0.20);
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+    --shadow-quiet: var(--shadow-architectural);
+
+    /* === Glass Light Specific: Button & Icon Contrast === */
+    --btn-border-subtle: rgba(60, 45, 30, 0.12);
+    --btn-border-active: rgba(60, 45, 30, 0.22);
+    --icon-on-bg: #5C5347;
+    --icon-on-bg-hover: #2C2520;
+    --toggle-border: rgba(60, 45, 30, 0.10);
+    --toggle-border-active: var(--gold-muted);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--bg);
+    color: var(--ink-primary);
+    overflow: hidden;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  }
+}
+
+@layer components {
+
+  /* Glass Panel - Quiet separation */
+  .glass-panel {
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-quiet);
+  }
+
+  /* === BUTTON: Soft Elevated Surface (NOT filled) === */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    min-height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--ink-primary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    cursor: pointer;
+    transition: background 100ms ease-out, box-shadow 100ms ease-out;
+  }
+
+  .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  .btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--gold-muted);
+  }
+
+  /* === ADD TASK: Available, not promoted === */
+  .btn-add-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    min-height: 44px;
+    background: rgba(255, 255, 255, 0.04);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--ink-secondary);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background 100ms ease-out, color 100ms ease-out;
+  }
+
+  .btn-add-task:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--ink-primary);
+  }
+
+  .btn-add-task:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--gold-muted);
+  }
+
+  /* Glass Light: Tonal buttons use rgba(0,0,0) not rgba(255,255,255) */
+  body.glass_light .btn-primary,
+  body.glass_light .btn-add-task {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  body.glass_light .btn-primary:hover,
+  body.glass_light .btn-add-task:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  /* === TASK CARD: Quiet, no hard borders === */
+  .task-card {
+    background: var(--card);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 100ms ease-out, border-color 100ms ease-out;
+  }
+
+  .task-card:hover {
+    box-shadow: var(--shadow-quiet);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* === INPUTS: Embedded, not boxed === */
+  .input-quiet {
+    background: rgba(255, 255, 255, 0.04);
+    border: none;
+    border-bottom: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    padding: 0.75rem 1rem;
+    color: var(--ink-primary);
+    font-size: 0.9375rem;
+    transition: border-color 100ms ease-out, box-shadow 100ms ease-out;
+  }
+
+  .input-quiet:focus {
+    outline: none;
+    border-bottom-color: var(--gold-muted);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .input-quiet::placeholder {
+    color: var(--ink-muted);
+  }
+
+  /* Glass Light: Cards and inputs use subtle dark tint */
+  body.glass_light .task-card {
+    background: var(--card);
+    border-color: rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-soft);
+  }
+
+  body.glass_light .task-card:hover {
+    box-shadow: var(--shadow-architectural);
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+
+  body.glass_light .input-quiet {
+    background: rgba(0, 0, 0, 0.03);
+  }
+}
+
+@layer utilities {
+  .border-theme {
+    border-color: var(--border-color);
+  }
+
+  .text-ink-primary {
+    color: var(--ink-primary);
+  }
+
+  .text-ink-secondary {
+    color: var(--ink-secondary);
+  }
+
+  .text-ink-muted {
+    color: var(--ink-muted);
+  }
+
+  .text-gold {
+    color: var(--gold-muted);
+  }
+
+  .bg-surface {
+    background-color: var(--surface);
+  }
+
+  .bg-panel {
+    background-color: var(--panel);
+  }
+}
+
+/* === FOCUS: Gold underline, no glowing ring === */
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--gold-muted);
+}
+
+input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--gold-muted);
+}
+
+/* === SCROLLBAR: Barely visible === */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}
+
+/* === MOTION: 100ms ease-out everywhere === */
+* {
+  transition-timing-function: ease-out;
+}
