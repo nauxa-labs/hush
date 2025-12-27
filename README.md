@@ -1,28 +1,55 @@
-# Hush
+# 🤫 Hush
 
 > **Focus in silence.**  
-> A minimalist Pomodoro timer with ambient sounds for deep work and productivity.
+> A minimalist Focus Workspace with ambient sounds, YouTube playlists, and Kanban task management.
 
 <p align="center">
-  <img src="assets/icons/logo-hush.png" alt="Hush Logo" width="120">
+  <img src="public/icon-512.png" alt="Hush Logo" width="120">
 </p>
 
 <p align="center">
-  <strong>by <a href="https://github.com/nauxa-labs">Nauxa Labs</a></strong>
+  <strong>v2.0.0 "Phoenix" • by <a href="https://github.com/nauxa-labs">Nauxa Labs</a></strong>
 </p>
 
 ---
 
 ## ✨ Features
 
-- **⏱️ Pomodoro Timer** - Classic 25/5 minute focus cycles with customizable durations
-- **🎵 Ambient Sounds** - 6 procedurally generated soundscapes (Rain, Café, Fire, Nature, Ocean, Typing)
-- **📊 Progress Tracking** - Session statistics, streak counter, and daily goals
-- **📝 Task Management** - Built-in to-do list to organize your focus sessions
-- **🏅 Achievements** - Unlock badges as you hit productivity milestones
-- **📱 Progressive Web App** - Install on any device, works 100% offline
-- **⌨️ Keyboard Shortcuts** - Navigate efficiently with hotkeys
-- **🎨 Minimalist Design** - Clean, elegant dark interface inspired by Notion and Linear
+### 🎵 Audio System
+- **YouTube Playlist** - Add any YouTube video, drag to reorder, shuffle
+- **Volume Control** - Independent volume for music and atmosphere
+- **7 Curated Atmospheres** - Web Audio synthesized soundscapes:
+  - Silence, Rainy Study, Café Corner, Ocean Dawn
+  - Forest Morning, Fireplace, Night Rain
+
+### ⏱️ Focus Timer
+- **Pomodoro Timer** - Customizable focus cycles
+- **Focus Mode Overlay** - Fullscreen distraction-free timer
+- **Quick Presets** - 15, 25, 45, 60 minute options
+- **Task Focus** - Focus on specific Kanban card
+
+### 📋 Workspace
+- **Kanban Board** - Drag-and-drop task cards
+- **Multiple Workspaces** - Organize by project
+- **Editable Names** - Double-click to rename
+- **List View** - Alternative simple checkbox view
+
+### 📊 Productivity
+- **Statistics Tracking** - Sessions, minutes, streaks
+- **Daily Goals** - Set and track focus targets
+- **10 Achievements** - Unlock badges as you progress
+
+### 🎨 Design
+- **Dual Theme** - Glass Dark / Glass Light
+- **Glassmorphism UI** - Modern translucent aesthetic
+- **Smooth Animations** - Framer Motion powered
+
+### 📱 Technical
+- **PWA Installable** - Works on desktop & mobile
+- **Offline-First** - Full offline detection
+- **Privacy-First** - All data stays local
+
+---
 
 ## 🚀 Quick Start
 
@@ -31,76 +58,77 @@
 git clone https://github.com/nauxa-labs/hush.git
 cd hush
 
-# Start local server
-npx serve . -l 3000
+# Install dependencies
+npm install
 
-# Open in browser
-http://localhost:3000
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-## ⌨️ Keyboard Shortcuts
-
-| Key | Action |
-|-----|--------|
-| `Space` | Start / Pause timer |
-| `R` | Reset timer |
-| `S` | Skip to next phase |
-| `Esc` | Close settings modal |
+---
 
 ## 🛠️ Tech Stack
 
-Hush is built with **zero dependencies** using vanilla web technologies:
+| Layer | Technology |
+|-------|------------|
+| Framework | React 19.0.0 |
+| Bundler | Vite 5 |
+| State | MobX |
+| Styling | Tailwind CSS + CSS Variables |
+| Animation | Framer Motion |
+| DnD | @dnd-kit |
+| Audio | Web Audio API + YouTube IFrame API |
 
-- **HTML5** - Semantic structure
-- **CSS3** - Custom properties, modern layouts
-- **Vanilla JavaScript** - No frameworks
-- **Web Audio API** - All sounds generated programmatically
-- **Service Workers** - Offline-first PWA architecture
-- **localStorage** - Client-side data persistence
+---
 
-## 🎯 Why Hush?
+## 📁 Project Structure
 
-Hush was designed for people who value **focus without friction**. Unlike bloated productivity apps, Hush gives you exactly what you need:
+```
+src/
+├── components/
+│   ├── audio/          # YouTube player, Ambient player
+│   ├── focus/          # Timer, Focus overlay
+│   ├── layout/         # AppShell, Sidebar, TopBar
+│   ├── panels/         # Audio, Stats, Settings, Badges
+│   ├── workspace/      # Kanban, Columns, Cards
+│   └── ui/             # Toast, ConfirmDialog, etc.
+├── lib/
+│   ├── audio/          # AmbientEngine (Web Audio)
+│   ├── services/       # Timer, Audio, Network, Storage
+│   └── store/          # MobX stores
+├── stores/             # AudioStore
+└── contexts/           # React contexts
+```
 
-- ✅ No accounts or sign-ups
-- ✅ No external dependencies or tracking
-- ✅ Fully functional offline
-- ✅ Privacy-first (all data stays local)
-- ✅ Fast, lightweight, accessible
+---
 
-Perfect for students, developers, designers, writers, or anyone practicing deep work.
+## 🔄 Migration from v1.x
 
-## 📖 How It Works
+Hush 2.0 is a complete rewrite from VanillaJS to React. Legacy code preserved in `_legacy/` folder.
 
-1. **Set your intention** - Add tasks to your to-do list
-2. **Start a session** - Click Start (or press Space)
-3. **Focus deeply** - Work for 25 minutes without distractions
-4. **Take a break** - Relax for 5 minutes with ambient sounds
-5. **Track progress** - Watch your streak grow and unlock achievements
+| v1.x (Legacy) | v2.0 (Phoenix) |
+|---------------|----------------|
+| VanillaJS | React 19 |
+| 6 procedural sounds | 7 curated atmospheres |
+| Simple task list | Kanban board |
+| Single workspace | Multiple workspaces |
+| — | YouTube playlists |
+| — | Offline detection |
 
-## 🎨 Design Philosophy
-
-Hush follows a **minimalist elegant** aesthetic:
-
-- Monochrome dark palette
-- Thin, readable typography (Inter font)
-- Subtle interactions and animations
-- No visual clutter or unnecessary elements
-- Inspired by Apple, Notion, and Linear
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+---
 
 ## 📄 License
 
 MIT License - feel free to use Hush for personal or commercial projects.
 
+---
+
 ## 💜 Nauxa Labs
 
 Hush is proudly developed by **Nauxa Labs**, building tools for focused productivity.
-
----
 
 <p align="center">
   Made with focus 🤫
