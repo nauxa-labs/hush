@@ -1,0 +1,84 @@
+.kanban-board {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  overflow-x: auto;
+  min-height: calc(100vh - var(--topbar-height) - var(--space-lg) * 2);
+}
+
+.kanban-column {
+  flex-shrink: 0;
+  width: 300px;
+  max-height: calc(100vh - var(--topbar-height) - 100px);
+
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column__header {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--glass-border);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kanban-column__title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.kanban-column__count {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.kanban-column__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-sm);
+}
+
+.kanban-column__footer {
+  padding: var(--space-sm);
+  border-top: 1px solid var(--glass-border);
+}
+
+/* Drop Zone Highlight */
+.kanban-column.drag-over {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--color-accent);
+}
+
+/* Add Column Button */
+.kanban-add-column {
+  flex-shrink: 0;
+  width: 300px;
+  min-height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 2px dashed var(--glass-border);
+  border-radius: var(--radius-lg);
+
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.kanban-add-column:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+}

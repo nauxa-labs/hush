@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hush Test Runner</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; padding: 20px; background: #0a0a0b; color: #fff; }
+    .suite { margin-bottom: 20px; border: 1px solid #333; padding: 10px; border-radius: 8px; }
+    .test { margin: 5px 0; padding: 5px; }
+    .pass { color: #4CAF50; }
+    .fail { color: #F44336; }
+    pre { margin-left: 20px; color: #ccc; font-size: 0.9em; }
+    .summary { margin-top: 10px; font-weight: bold; border-top: 1px solid #333; padding-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Hush Test Runner</h1>
+  <div id="test-results"></div>
+
+  <script type="module">
+    // Import and run tests
+    import { runWorkspaceTests } from './workspace.test.js';
+    import { runKanbanTests } from './kanban.test.js';
+
+    async function runAll() {
+      try {
+        await runWorkspaceTests();
+        await runKanbanTests();
+      } catch (e) {
+        console.error("Test execution failed:", e);
+      }
+    }
+
+    runAll();
+  </script>
+</body>
+</html>

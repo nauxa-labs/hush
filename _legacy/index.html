@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUSH PHOENIX</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400&display=swap"
+    rel="stylesheet">
+
+  <!-- Single CSS Source of Truth -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <!-- App Shell -->
+  <div class="app-shell">
+    <aside class="shell-sidebar" id="sidebar">
+      <!-- Injected by Sidebar.js -->
+    </aside>
+
+    <header class="shell-header" id="topbar">
+      <!-- Injected by TopBar.js -->
+    </header>
+
+    <main class="shell-workspace" id="workspace-view">
+      <!-- Injected by Kanban/List View -->
+    </main>
+  </div>
+
+  <!-- Overlays -->
+  <div id="focus-overlay"></div>
+  <div id="slide-panel-root"></div>
+
+  <!-- Orchestrator -->
+  <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
