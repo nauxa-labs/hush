@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { useStores, useStoreSelector } from '../../contexts/StoreContext';
-import { BarChart3, CheckCircle, Clock, TrendingUp, Flame } from 'lucide-react';
+import { useStores, useStoreSelector, useStoreData } from '../../contexts/StoreContext';
+import { BarChart3, CheckCircle, Clock, TrendingUp, Flame, Folder } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function StatsPanel() {
-  const { statsStore } = useStores();
+  const { statsStore, workspaceStore } = useStores();
   const stats = useStoreSelector(statsStore, (state) => state);
+  const { workspaces } = useStoreData(workspaceStore);
 
   // Derive Weekly Data from history
   const weeklyData = useMemo(() => {
@@ -27,12 +28,36 @@ export function StatsPanel() {
     return result;
   }, [stats]);
 
+  // Per-workspace stats sorted by minutes (top 5)
+  const workspaceStats = useMemo(() => {
+    if (!stats?.byWorkspace) return [];
+
+    return Object.entries(stats.byWorkspace)
+      .map(([wsId, data]) => {
+        const ws = workspaces.find(w => w.id === wsId);
+        return {
+          id: wsId,
+          name: ws?.name || 'Unknown',
+          icon: ws?.icon || '📁',
+          ...data
+        };
+      })
+      .sort((a, b) => b.minutes - a.minutes)
+      .slice(0, 5);
+  }, [stats?.byWorkspace, workspaces]);
+
   if (!stats) return null;
 
   // Format Focus Time (e.g., 125m -> 2h 5m)
   const hours = Math.floor(stats.totalMinutes / 60);
   const minutes = stats.totalMinutes % 60;
   const focusTimeStr = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+
+  const formatMinutes = (m) => {
+    const h = Math.floor(m / 60);
+    const min = m % 60;
+    return h > 0 ? `${h}h ${min}m` : `${min}m`;
+  };
 
   return (
     <div className="flex flex-col h-full bg-bg-panel text-text-main p-8 overflow-y-auto custom-scrollbar">
@@ -111,6 +136,44 @@ export function StatsPanel() {
           ))}
         </div>
       </div>
+
+      {/* Workspace Breakdown */}
+      {workspaceStats.length > 0 && (
+        <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
+          <div className="flex items-center gap-2 text-xs font-bold text-text-muted/80 mb-4">
+            <Folder size={14} /> <span>TOP WORKSPACES</span>
+          </div>
+
+          <div className="space-y-3">
+            {workspaceStats.map((ws, i) => {
+              const maxMinutes = workspaceStats[0]?.minutes || 1;
+              const percentage = (ws.minutes / maxMinutes) * 100;
+
+              return (
+                <div key={ws.id} className="group">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span>{ws.icon}</span>
+                      <span className="text-text-main truncate max-w-[140px]">{ws.name}</span>
+                    </div>
+                    <div className="text-xs text-text-muted">
+                      {formatMinutes(ws.minutes)} • {ws.sessions}s
+                    </div>
+                  </div>
+                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${percentage}%` }}
+                      transition={{ delay: i * 0.1, duration: 0.5, ease: "backOut" }}
+                      className="h-full bg-text-gold/60 group-hover:bg-text-gold transition-colors"
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
     </div>
   );
