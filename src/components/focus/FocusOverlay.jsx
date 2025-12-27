@@ -5,13 +5,18 @@ import { Timer } from './Timer';
 import { X, Maximize2, Minimize2 } from 'lucide-react';
 
 export function FocusOverlay() {
-  const { focusMode, setFocusMode, kanbanStore, activeFocusTaskId, setActiveFocusTaskId } = useStores();
+  const { focusMode, setFocusMode, kanbanStore, activeFocusTaskId, setActiveFocusTaskId, timerService } = useStores();
 
   const activeTask = activeFocusTaskId ? kanbanStore.getCard(activeFocusTaskId) : null;
 
   const handleExit = () => {
     setFocusMode(false);
     setActiveFocusTaskId(null);
+  };
+
+  const handleEndSession = () => {
+    timerService.reset();
+    handleExit();
   };
 
   return (
@@ -50,21 +55,20 @@ export function FocusOverlay() {
           </button>
 
           {/* Timer Component */}
-          {/* We wrap Timer in a motion div with layoutId to connect it to the MiniTimer */}
           <motion.div layoutId="focus-timer-shared">
             <Timer />
           </motion.div>
 
-          {/* End Session Button (Stop & Reset) */}
-          <button
-            onClick={() => {
-              timerService.reset();
-              handleExit();
-            }}
-            className="absolute bottom-10 px-8 py-3 rounded-full border border-red-500/30 text-red-400 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/60 transition-all text-xs tracking-[0.2em] uppercase font-bold"
+          {/* End Session Button - with proper spacing */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            onClick={handleEndSession}
+            className="mt-16 px-8 py-3 rounded-full border border-red-500/30 text-red-400 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/60 transition-all text-xs tracking-[0.2em] uppercase font-bold"
           >
             End Session
-          </button>
+          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>

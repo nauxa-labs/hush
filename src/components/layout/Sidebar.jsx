@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStores, useStoreData } from '../../contexts/StoreContext';
-import { Briefcase, Plus, BarChart2, Music, Settings } from 'lucide-react';
+import { Briefcase, Plus, BarChart2, Music, Settings, Check, X } from 'lucide-react';
 import clsx from 'clsx';
 
 export function Sidebar() {
   const { workspaceStore, setActivePanel } = useStores();
   const { workspaces, activeId } = useStoreData(workspaceStore);
+  const [editingId, setEditingId] = useState(null);
+  const [editValue, setEditValue] = useState('');
+
+  const handleStartEdit = (ws) => {
+    setEditingId(ws.id);
+    setEditValue(ws.name);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingId && editValue.trim()) {
+      workspaceStore.update(editingId, { name: editValue.trim() });
+    }
+    setEditingId(null);
+    setEditValue('');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditValue('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSaveEdit();
+    } else if (e.key === 'Escape') {
+      handleCancelEdit();
+    }
+  };
 
   return (
     <aside className="border-r border-theme bg-bg-panel flex flex-col h-full transition-colors duration-500">
@@ -24,7 +52,8 @@ export function Sidebar() {
         {workspaces.map(ws => (
           <div
             key={ws.id}
-            onClick={() => workspaceStore.setActive(ws.id)}
+            onClick={() => editingId !== ws.id && workspaceStore.setActive(ws.id)}
+            onDoubleClick={() => handleStartEdit(ws)}
             className={clsx(
               "group flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer transition-all duration-200",
               activeId === ws.id
@@ -32,8 +61,23 @@ export function Sidebar() {
                 : "text-text-muted hover:text-text-main hover:bg-text-main/5"
             )}
           >
-            <Briefcase size={14} className={clsx("transition-colors", activeId === ws.id ? "text-text-gold" : "text-text-muted group-hover:text-text-main")} />
-            <span className="text-sm">{ws.name}</span>
+            <Briefcase size={14} className={clsx("transition-colors shrink-0", activeId === ws.id ? "text-text-gold" : "text-text-muted group-hover:text-text-main")} />
+
+            {editingId === ws.id ? (
+              <div className="flex items-center gap-1 flex-1">
+                <input
+                  type="text"
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={handleSaveEdit}
+                  autoFocus
+                  className="flex-1 bg-transparent border-b border-text-gold outline-none text-sm px-1"
+                />
+              </div>
+            ) : (
+              <span className="text-sm truncate" title="Double-click to rename">{ws.name}</span>
+            )}
           </div>
         ))}
 
