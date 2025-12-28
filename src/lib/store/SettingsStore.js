@@ -14,7 +14,8 @@ const DEFAULT_SETTINGS = {
     autoStartBreaks: false,
     autoStartPomodoros: false,
     tickSound: true,
-    completionSound: true
+    completionSound: true,
+    presets: [15, 25, 45, 60]  // Quick select timer presets (user-customizable)
   },
 
   // Audio

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react';
+import React, { createContext, useContext, useEffect, useState, useSyncExternalStore, useRef } from 'react';
 import { WorkspaceStore } from '../lib/store/WorkspaceStore';
 import { KanbanStore } from '../lib/store/KanbanStore';
 import { SettingsStore } from '../lib/store/SettingsStore';
@@ -41,6 +41,19 @@ function StoreProviderInner({ children }) {
   const [activePanel, setActivePanel] = useState(null);
   const [confirmation, setConfirmation] = useState(null);
 
+  // Refs to hold current state for event handlers (to avoid stale closures)
+  const focusModeRef = useRef(focusMode);
+  const activePanelRef = useRef(activePanel);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    focusModeRef.current = focusMode;
+  }, [focusMode]);
+
+  useEffect(() => {
+    activePanelRef.current = activePanel;
+  }, [activePanel]);
+
   // Global Event Listeners
   useEffect(() => {
     // Listen for badge unlocks
@@ -69,6 +82,10 @@ function StoreProviderInner({ children }) {
 
   const closeConfirmation = () => setConfirmation(null);
 
+  // Getter functions that always return fresh values (for event handlers)
+  const getFocusMode = () => focusModeRef.current;
+  const getActivePanel = () => activePanelRef.current;
+
   const stores = {
     workspaceStore,
     kanbanStore,
@@ -80,10 +97,12 @@ function StoreProviderInner({ children }) {
     audioService,
     focusMode,
     setFocusMode,
+    getFocusMode,  // Getter for event handlers
     activeFocusTaskId,
     setActiveFocusTaskId,
     activePanel,
     setActivePanel,
+    getActivePanel,  // Getter for event handlers
     confirmation,
     requestConfirmation,
     closeConfirmation

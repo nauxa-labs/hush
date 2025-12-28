@@ -1,5 +1,5 @@
 import React from 'react';
-import { DndContext, DragOverlay, closestCorners, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
+import { DndContext, DragOverlay, rectIntersection, pointerWithin, useSensor, useSensors, PointerSensor, MouseSensor, TouchSensor } from '@dnd-kit/core';
 import { KanbanColumn } from './KanbanColumn';
 import { TaskCard } from './TaskCard';
 import { useStores, useStoreData, useStoreSelector } from '../../contexts/StoreContext';
@@ -14,11 +14,24 @@ export function KanbanBoard() {
   const { cards } = useStoreData(kanbanStore);
 
   const [activeDragId, setActiveDragId] = React.useState(null);
+  const [overColumnId, setOverColumnId] = React.useState(null);
 
+  // Better sensor configuration for smooth dragging
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // Require movement to start drag (allows clicking)
+        distance: 8, // Slightly larger to prevent accidental drags
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 5,
       },
     })
   );
@@ -33,23 +46,36 @@ export function KanbanBoard() {
     setActiveDragId(event.active.id);
   };
 
+  const handleDragOver = (event) => {
+    const { over } = event;
+    if (!over) {
+      setOverColumnId(null);
+      return;
+    }
+
+    const overData = over.data.current;
+    if (overData?.type === 'Column') {
+      setOverColumnId(overData.column.id);
+    } else if (overData?.type === 'Card') {
+      setOverColumnId(overData.columnId);
+    }
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     setActiveDragId(null);
+    setOverColumnId(null);
 
     if (!over) return;
 
-    const activeId = active.id;
+    const activeCardId = active.id;
     const overId = over.id;
 
-    if (activeId === overId) return;
+    if (activeCardId === overId) return;
 
     // Logic for Card Reordering / Moving
-    // Check if active is a Card
-    const card = kanbanStore.getCard(activeId);
+    const card = kanbanStore.getCard(activeCardId);
     if (card) {
-      // Moving a card
-      // Is over a Column or a Card?
       const overData = over.data.current;
       let targetColumnId = null;
       let targetIndex = 0;
@@ -61,25 +87,39 @@ export function KanbanBoard() {
         targetIndex = colCards.length;
       } else if (overData?.type === 'Card') {
         targetColumnId = overData.columnId;
-        // Insert before or after? dnd-kit sortable usually handles index calculation
-        // But for custom store logic, we might need to find index
         const colCards = kanbanStore.getCardsByColumn(activeWs.id, targetColumnId);
         const overIndex = colCards.findIndex(c => c.id === overId);
-        // Simplified: Insert at overIndex
-        targetIndex = overIndex;
+        // Insert at the position of the card we're over
+        targetIndex = overIndex >= 0 ? overIndex : colCards.length;
       }
 
-      if (targetColumnId) {
-        kanbanStore.moveCard(activeId, targetColumnId, targetIndex);
+      if (targetColumnId && targetColumnId !== card.columnId) {
+        // Moving to different column
+        kanbanStore.moveCard(activeCardId, targetColumnId, targetIndex);
+      } else if (targetColumnId) {
+        // Reordering within same column
+        kanbanStore.moveCard(activeCardId, targetColumnId, targetIndex);
       }
     }
+  };
+
+  // Custom collision detection that prioritizes columns for easier dropping
+  const customCollisionDetection = (args) => {
+    // First check if pointer is within any droppable
+    const pointerCollisions = pointerWithin(args);
+    if (pointerCollisions.length > 0) {
+      return pointerCollisions;
+    }
+    // Fallback to rect intersection
+    return rectIntersection(args);
   };
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={customCollisionDetection}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
       <div className="flex h-full gap-8 overflow-x-auto pb-4 px-2">
@@ -89,6 +129,7 @@ export function KanbanBoard() {
             column={col}
             workspaceId={activeWs.id}
             cards={kanbanStore.getCardsByColumn(activeWs.id, col.id)}
+            isOver={overColumnId === col.id}
           />
         ))}
 
@@ -104,9 +145,9 @@ export function KanbanBoard() {
         </div>
       </div>
 
-      <DragOverlay>
+      <DragOverlay dropAnimation={{ duration: 200, easing: 'ease' }}>
         {activeDragId ? (
-          <TaskCard card={kanbanStore.getCard(activeDragId)} />
+          <TaskCard card={kanbanStore.getCard(activeDragId)} isDragging />
         ) : null}
       </DragOverlay>
     </DndContext>

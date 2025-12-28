@@ -6,7 +6,7 @@ import { Play, MoreHorizontal, FileText, CheckSquare } from 'lucide-react';
 import { useStores } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
-export function TaskCard({ card }) {
+export function TaskCard({ card, columnId, isDragging: isDraggingOverlay }) {
   const { kanbanStore, setActivePanel, setFocusMode, setActiveFocusTaskId, timerService } = useStores();
 
   const {
@@ -16,15 +16,20 @@ export function TaskCard({ card }) {
     transform,
     transition,
     isDragging
-  } = useSortable({ id: card.id, data: { type: 'Card', card } });
+  } = useSortable({
+    id: card.id,
+    data: {
+      type: 'Card',
+      card,
+      columnId: columnId || card.columnId  // Include columnId for drop detection
+    }
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1
+    opacity: isDragging ? 0.3 : 1,  // More visible feedback when dragging
   };
-
-  const activeFocusTaskId = kanbanStore.activeFocusTaskId || null; // Accessing from new context usage, though passed via useStores return earlier, we need to destructure it.
 
   const handleStartFocus = (e) => {
     e.stopPropagation();
@@ -47,7 +52,10 @@ export function TaskCard({ card }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="task-card group p-3 mb-2 cursor-grab active:cursor-grabbing relative overflow-hidden"
+      className={clsx(
+        "task-card group p-3 mb-2 cursor-grab active:cursor-grabbing relative overflow-hidden",
+        isDraggingOverlay && "shadow-2xl shadow-text-gold/20 ring-2 ring-text-gold/50 scale-105"
+      )}
     >
       {/* Title */}
       <div className="mb-2">
