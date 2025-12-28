@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useStores, useStoreData } from '../../contexts/StoreContext';
+import { useStores, useStoreData, useStoreSelector } from '../../contexts/StoreContext';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import clsx from 'clsx';
 
 export function Timer() {
-  const { timerService } = useStores();
+  const { timerService, settingsStore } = useStores();
   const { remaining, isRunning, total } = useStoreData(timerService);
+  const presets = useStoreSelector(settingsStore, (state) => state.timer?.presets) || [15, 25, 45, 60];
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
@@ -53,20 +54,21 @@ export function Timer() {
         </button>
       </div>
 
-      {/* Quick Adjust */}
+      {/* Quick Adjust - Using customizable presets */}
       {!isRunning && (
         <div className="mt-12 flex gap-4">
-          {[15, 25, 45, 60].map(min => (
+          {presets.map((min, index) => (
             <button
-              key={min}
+              key={`preset-${index}-${min}`}
               onClick={() => timerService.setDuration(min)}
               className={clsx(
-                "px-4 py-2 rounded-full text-sm transition-all",
+                "px-4 py-2 rounded-full text-sm transition-all min-w-[48px]",
                 total === min * 60
                   ? "border-2 border-text-gold text-text-gold bg-text-gold/10"
                   : "border text-ink-secondary hover:text-ink-primary"
               )}
               style={total !== min * 60 ? { borderColor: 'var(--btn-border-subtle)' } : undefined}
+              title={`Press ${index + 1} for quick select`}
             >
               {min}
             </button>

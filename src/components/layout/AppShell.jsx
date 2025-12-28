@@ -8,6 +8,7 @@ import { OfflineWarning } from '../ui/OfflineWarning';
 import { YouTubeHiddenPlayer } from '../audio/YouTubeHiddenPlayer';
 import { MiniAudioPlayer } from '../audio/MiniAudioPlayer';
 import { AmbientPlayer } from '../audio/AmbientPlayer';
+import { useKeyboardShortcuts } from '../../lib/hooks/useKeyboardShortcuts';
 
 import { useStores, useStoreSelector } from '../../contexts/StoreContext';
 import { useEffect } from 'react';
@@ -15,6 +16,9 @@ import { useEffect } from 'react';
 export function AppShell({ children }) {
   const { settingsStore } = useStores();
   const theme = useStoreSelector(settingsStore, (state) => state.theme);
+
+  // Global keyboard shortcuts
+  useKeyboardShortcuts();
 
   useEffect(() => {
     // Apply theme to body

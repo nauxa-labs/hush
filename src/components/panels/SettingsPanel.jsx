@@ -116,6 +116,52 @@ export function SettingsPanel() {
             />
           </button>
         </div>
+
+        {/* Quick Presets */}
+        <div className="p-5 rounded-xl space-y-3" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-sm font-medium text-ink-primary">Quick Timer Presets</div>
+              <div className="text-xs text-ink-muted">Customize the quick select buttons (1-4 keys)</div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            {(settings.timer?.presets || [15, 25, 45, 60]).map((preset, index) => (
+              <div key={index} className="flex-1 relative">
+                <input
+                  type="number"
+                  defaultValue={preset}
+                  onBlur={(e) => {
+                    const value = parseInt(e.target.value);
+                    const validValue = isNaN(value) ? 15 : Math.max(1, Math.min(120, value));
+                    e.target.value = validValue; // Reset display
+                    const newPresets = [...(settings.timer?.presets || [15, 25, 45, 60])];
+                    newPresets[index] = validValue;
+                    updateSetting('timer.presets', newPresets);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.target.blur(); // Trigger onBlur validation
+                    }
+                  }}
+                  className="w-full rounded px-2 py-2 text-center outline-none text-sm"
+                  style={{ background: 'var(--card)', border: '1px solid var(--btn-border-subtle)', color: 'var(--ink-primary)' }}
+                  min="1"
+                  max="120"
+                />
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-[10px] text-ink-muted bg-bg-panel px-1">
+                  {index + 1}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => updateSetting('timer.presets', [15, 25, 45, 60])}
+            className="text-xs text-ink-muted hover:text-ink-primary transition-colors"
+          >
+            Reset to defaults
+          </button>
+        </div>
       </section>
 
       {/* Audio Defaults */}
