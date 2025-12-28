@@ -130,11 +130,19 @@ export function SettingsPanel() {
               <div key={index} className="flex-1 relative">
                 <input
                   type="number"
-                  value={preset}
-                  onChange={(e) => {
+                  defaultValue={preset}
+                  onBlur={(e) => {
+                    const value = parseInt(e.target.value);
+                    const validValue = isNaN(value) ? 15 : Math.max(1, Math.min(120, value));
+                    e.target.value = validValue; // Reset display
                     const newPresets = [...(settings.timer?.presets || [15, 25, 45, 60])];
-                    newPresets[index] = Math.max(1, Math.min(120, parseInt(e.target.value) || 1));
+                    newPresets[index] = validValue;
                     updateSetting('timer.presets', newPresets);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.target.blur(); // Trigger onBlur validation
+                    }
                   }}
                   className="w-full rounded px-2 py-2 text-center outline-none text-sm"
                   style={{ background: 'var(--card)', border: '1px solid var(--btn-border-subtle)', color: 'var(--ink-primary)' }}

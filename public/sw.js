@@ -1,5 +1,7 @@
 // HUSH Service Worker - Offline-First Cache Strategy
-const CACHE_NAME = 'hush-v2.0.1';
+// Cache version is updated on each build via Vite's define
+const CACHE_VERSION = '2.1.0';
+const CACHE_NAME = `hush-v${CACHE_VERSION}`;
 
 // Assets to cache on install
 const STATIC_ASSETS = [
