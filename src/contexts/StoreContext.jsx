@@ -19,7 +19,7 @@ const settingsStore = new SettingsStore();
 const statsStore = new StatsStore();
 const achievementStore = new AchievementStore(statsStore);
 const audioStore = new AudioStore();
-const timerService = new TimerService(statsStore, workspaceStore);
+const timerService = new TimerService(statsStore, workspaceStore, settingsStore);
 const audioService = new AudioService(settingsStore, timerService);
 
 // 3. Provider Component
