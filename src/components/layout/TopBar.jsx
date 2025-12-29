@@ -1,11 +1,11 @@
 import React from 'react';
-import { LayoutGrid, List, Target } from 'lucide-react';
+import { LayoutGrid, List, Target, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useStores, useStoreData } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
-export function TopBar() {
-  const { workspaceStore, setFocusMode } = useStores();
+export function TopBar({ onOpenShortcutHelp }) {
+  const { workspaceStore } = useStores();
   const { activeId, workspaces } = useStoreData(workspaceStore);
 
   const activeWs = workspaces.find(w => w.id === activeId);
@@ -47,6 +47,15 @@ export function TopBar() {
 
         <div className="w-px h-5 bg-border-color"></div>
 
+        {/* Help Button - Discoverability for shortcuts */}
+        <button
+          onClick={onOpenShortcutHelp}
+          className="p-2 rounded-lg text-ink-muted hover:text-ink-primary hover:bg-panel transition-all duration-100"
+          title="Keyboard Shortcuts (?)"
+        >
+          <HelpCircle size={18} />
+        </button>
+
         {/* Smart Focus Toggle */}
         <FocusToggle />
       </div>
@@ -58,6 +67,9 @@ function FocusToggle() {
   const { timerService, focusMode, setFocusMode } = useStores();
   const { remaining, isRunning } = useStoreData(timerService);
 
+  // Memoized callback for entering focus mode
+  const enterFocusMode = React.useCallback(() => setFocusMode(true), [setFocusMode]);
+
   // If timer is running and NOT in focus mode, show the "Mini Timer" button
   const showTimer = isRunning && !focusMode;
 
@@ -68,7 +80,7 @@ function FocusToggle() {
     return (
       <motion.button
         layoutId="focus-timer-shared"
-        onClick={() => setFocusMode(true)}
+        onClick={enterFocusMode}
         className="flex items-center gap-3 px-4 py-2 rounded-xl bg-panel hover:bg-surface transition-all duration-100 min-w-[120px] justify-center"
       >
         {/* Quiet gold dot - slow breathe */}
@@ -83,7 +95,7 @@ function FocusToggle() {
     <motion.button
       layoutId="focus-timer-shared"
       className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-panel hover:bg-surface transition-all duration-100 min-w-[120px] justify-center"
-      onClick={() => setFocusMode(true)}
+      onClick={enterFocusMode}
     >
       <Target size={14} className="text-ink-muted" />
       <span className="text-xs font-medium tracking-wide text-ink-secondary">Focus</span>

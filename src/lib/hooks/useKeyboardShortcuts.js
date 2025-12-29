@@ -7,48 +7,60 @@ import { useStores } from '../../contexts/StoreContext';
  * Shortcuts:
  * - Space: Start/Pause timer (when not typing)
  * - R: Reset timer (when not typing)
- * - Escape: Close panels, exit focus mode
+ * - Escape: Close help modal, close panels, exit focus mode
  * - F: Toggle Focus Mode (when not typing)
+ * - ?: Show keyboard shortcut help
  * - 1-4: Quick select timer preset
  */
-export function useKeyboardShortcuts() {
+export function useKeyboardShortcuts({ onToggleHelp, isHelpOpen, onCloseHelp } = {}) {
   const {
     timerService,
     settingsStore,
     setFocusMode,
     setActivePanel,
     setActiveFocusTaskId,
-    getFocusMode,     // Getter for fresh value
-    getActivePanel    // Getter for fresh value
+    getFocusMode,
+    getActivePanel
   } = useStores();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Get fresh values using getters (avoids stale closures)
       const focusMode = getFocusMode();
       const activePanel = getActivePanel();
 
-      // Ignore if typing in an input, textarea, or contenteditable
       const isTyping =
         e.target.tagName === 'INPUT' ||
         e.target.tagName === 'TEXTAREA' ||
         e.target.isContentEditable;
 
-      // Escape always works (even when typing)
+      // ?: Show help (works even when typing, Shift+/ = ?)
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault();
+        onToggleHelp?.();
+        return;
+      }
+
+      // Escape always works - priority: help modal > panel > focus mode
       if (e.key === 'Escape') {
         e.preventDefault();
-
-        // Priority: close panel first, then exit focus mode
+        // Close help modal first if open
+        if (isHelpOpen) {
+          onCloseHelp?.();
+          return;
+        }
+        // Then close panel
         if (activePanel) {
           setActivePanel(null);
-        } else if (focusMode) {
+          return;
+        }
+        // Finally exit focus mode
+        if (focusMode) {
           setFocusMode(false);
           setActiveFocusTaskId(null);
         }
         return;
       }
 
-      // Skip other shortcuts if typing
       if (isTyping) return;
 
       // Space: Start/Pause timer
@@ -97,5 +109,6 @@ export function useKeyboardShortcuts() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel]);
+  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel, onToggleHelp, isHelpOpen, onCloseHelp]);
 }
+

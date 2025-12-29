@@ -7,6 +7,7 @@ import { AchievementStore } from '../lib/store/AchievementStore';
 import { AudioStore } from '../stores/AudioStore';
 import { TimerService } from '../lib/services/TimerService';
 import { AudioService } from '../lib/services/AudioService';
+import { NotificationService } from '../lib/services/NotificationService';
 import { ToastProvider, useToast } from '../components/ui/Toast';
 
 // 1. Create Context
@@ -19,8 +20,9 @@ const settingsStore = new SettingsStore();
 const statsStore = new StatsStore();
 const achievementStore = new AchievementStore(statsStore);
 const audioStore = new AudioStore();
-const timerService = new TimerService(statsStore, workspaceStore);
+const timerService = new TimerService(statsStore, workspaceStore, settingsStore);
 const audioService = new AudioService(settingsStore, timerService);
+const notificationService = new NotificationService(settingsStore, timerService);
 
 // 3. Provider Component
 export function StoreProvider({ children }) {
@@ -95,6 +97,7 @@ function StoreProviderInner({ children }) {
     audioStore,
     timerService,
     audioService,
+    notificationService,
     focusMode,
     setFocusMode,
     getFocusMode,  // Getter for event handlers
