@@ -88,12 +88,12 @@ export function Timer() {
       {/* Session Counter */}
       {completedPomodoros > 0 && (
         <div className="mt-8 text-sm text-text-muted">
-          {completedPomodoros} session{completedPomodoros > 1 ? 's' : ''} completed today
+          {completedPomodoros} session{completedPomodoros > 1 ? 's' : ''} completed
         </div>
       )}
 
       {/* Quick Adjust - Using customizable presets (only in focus mode) */}
-      {!isRunning && mode === 'focus' && (
+      {!isRunning && (mode === 'focus') && (
         <div className="mt-8 flex gap-4">
           {presets.map((min, index) => (
             <button
