@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStores, useStoreSelector } from '../../contexts/StoreContext';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Clock, Speaker } from 'lucide-react';
+import { Moon, Sun, Clock, Speaker, Bell } from 'lucide-react';
 
 export function SettingsPanel() {
   const { settingsStore } = useStores();
@@ -242,6 +242,9 @@ export function SettingsPanel() {
         </div>
       </section>
 
+      {/* Notifications */}
+      <NotificationsSection settings={settings} updateSetting={updateSetting} />
+
       {/* Reset Area */}
       <section className="mt-auto pt-8" style={{ borderTop: '1px solid var(--toggle-border)' }}>
         <button
@@ -253,5 +256,107 @@ export function SettingsPanel() {
         </button>
       </section>
     </div>
+  );
+}
+
+// Notifications Section Component
+function NotificationsSection({ settings, updateSetting }) {
+  const { notificationService } = useStores();
+  const [permissionStatus, setPermissionStatus] = useState('default');
+
+  useEffect(() => {
+    // Check permission status on mount
+    if ('Notification' in window) {
+      setPermissionStatus(Notification.permission);
+    } else {
+      setPermissionStatus('unsupported');
+    }
+  }, []);
+
+  const handleRequestPermission = async () => {
+    if (notificationService) {
+      const granted = await notificationService.requestPermission();
+      setPermissionStatus(granted ? 'granted' : 'denied');
+    }
+  };
+
+  const getPermissionUI = () => {
+    if (permissionStatus === 'unsupported') {
+      return (
+        <div className="text-xs text-red-400">
+          Browser doesn't support notifications
+        </div>
+      );
+    }
+
+    if (permissionStatus === 'granted') {
+      return (
+        <div className="text-xs text-green-400 flex items-center gap-1">
+          ✓ Enabled
+        </div>
+      );
+    }
+
+    if (permissionStatus === 'denied') {
+      return (
+        <div className="text-xs text-red-400">
+          Blocked (enable in browser settings)
+        </div>
+      );
+    }
+
+    return (
+      <button
+        onClick={handleRequestPermission}
+        className="px-3 py-1 text-xs rounded-lg transition-colors"
+        style={{
+          background: 'var(--gold-muted)',
+          color: 'var(--bg-deep)'
+        }}
+      >
+        Enable
+      </button>
+    );
+  };
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center gap-2 text-ink-muted text-sm uppercase tracking-wider font-medium">
+        <Bell size={14} />
+        <span>Notifications</span>
+      </div>
+
+      <div className="space-y-3 p-5 rounded-xl" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+        {/* Browser Notifications Toggle */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Browser Notifications</div>
+            <div className="text-xs text-ink-muted">Get notified when timer completes</div>
+          </div>
+          <button
+            onClick={() => updateSetting('notifications.browser', !settings.notifications?.browser)}
+            className="w-12 h-6 rounded-full transition-colors relative"
+            style={{
+              background: settings.notifications?.browser !== false ? 'var(--gold-muted)' : 'var(--panel)',
+              border: settings.notifications?.browser !== false ? 'none' : '1px solid var(--btn-border-subtle)'
+            }}
+          >
+            <div
+              className="absolute top-1 w-4 h-4 rounded-full transition-all"
+              style={{
+                background: settings.notifications?.browser !== false ? 'white' : 'var(--ink-muted)',
+                left: settings.notifications?.browser !== false ? '1.75rem' : '0.25rem'
+              }}
+            />
+          </button>
+        </div>
+
+        {/* Permission Status */}
+        <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: 'var(--toggle-border)' }}>
+          <div className="text-sm text-ink-secondary">Permission Status</div>
+          {getPermissionUI()}
+        </div>
+      </div>
+    </section>
   );
 }
