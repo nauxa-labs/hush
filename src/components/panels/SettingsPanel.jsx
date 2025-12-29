@@ -140,6 +140,53 @@ export function SettingsPanel() {
           </button>
         </div>
 
+        {/* Sound Settings */}
+        <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Completion Sound</div>
+            <div className="text-xs text-ink-muted">Play bell when timer completes</div>
+          </div>
+          <button
+            onClick={() => updateSetting('timer.completionSound', !settings.timer.completionSound)}
+            className="w-12 h-6 rounded-full transition-colors relative"
+            style={{
+              background: settings.timer.completionSound !== false ? 'var(--gold-muted)' : 'var(--panel)',
+              border: settings.timer.completionSound !== false ? 'none' : '1px solid var(--btn-border-subtle)'
+            }}
+          >
+            <div
+              className="absolute top-1 w-4 h-4 rounded-full transition-all"
+              style={{
+                background: settings.timer.completionSound !== false ? 'white' : 'var(--ink-muted)',
+                left: settings.timer.completionSound !== false ? '1.75rem' : '0.25rem'
+              }}
+            />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Tick Sound</div>
+            <div className="text-xs text-ink-muted">Play subtle tick every second</div>
+          </div>
+          <button
+            onClick={() => updateSetting('timer.tickSound', !settings.timer.tickSound)}
+            className="w-12 h-6 rounded-full transition-colors relative"
+            style={{
+              background: settings.timer.tickSound ? 'var(--gold-muted)' : 'var(--panel)',
+              border: settings.timer.tickSound ? 'none' : '1px solid var(--btn-border-subtle)'
+            }}
+          >
+            <div
+              className="absolute top-1 w-4 h-4 rounded-full transition-all"
+              style={{
+                background: settings.timer.tickSound ? 'white' : 'var(--ink-muted)',
+                left: settings.timer.tickSound ? '1.75rem' : '0.25rem'
+              }}
+            />
+          </button>
+        </div>
+
         {/* Quick Presets */}
         <div className="p-5 rounded-xl space-y-3" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
           <div className="flex justify-between items-center">
