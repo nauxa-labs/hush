@@ -22,7 +22,6 @@ export class NotificationService {
    */
   checkPermission() {
     if (!('Notification' in window)) {
-      console.warn('Browser does not support notifications');
       return false;
     }
 
@@ -75,7 +74,6 @@ export class NotificationService {
     }
 
     const mode = this.timerService?.data?.mode;
-    const completedPomodoros = this.timerService?.data?.completedPomodoros || 0;
 
     // Different messages based on what just completed
     let title, body, icon;
