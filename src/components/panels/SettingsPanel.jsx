@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStores, useStoreSelector } from '../../contexts/StoreContext';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Clock, Speaker, Bell } from 'lucide-react';
+import { Moon, Sun, Clock, Speaker, Bell, Database, Download, Upload } from 'lucide-react';
+import { storageService } from '../../lib/services/StorageService';
 
 export function SettingsPanel() {
   const { settingsStore } = useStores();
@@ -293,15 +294,10 @@ export function SettingsPanel() {
       <NotificationsSection settings={settings} updateSetting={updateSetting} />
 
       {/* Reset Area */}
-      <section className="mt-auto pt-8" style={{ borderTop: '1px solid var(--toggle-border)' }}>
-        <button
-          onClick={() => settingsStore.reset()}
-          className="w-full py-3 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors text-sm font-medium tracking-wide"
-          style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)' }}
-        >
-          Reset All Settings
-        </button>
-      </section>
+      {/* Data & Storage (Export, Import, Reset) */}
+      <div className="mt-auto pt-8" style={{ borderTop: '1px solid var(--toggle-border)' }}>
+        <DataStorageSection />
+      </div>
     </div>
   );
 }
@@ -402,6 +398,120 @@ function NotificationsSection({ settings, updateSetting }) {
         <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: 'var(--toggle-border)' }}>
           <div className="text-sm text-ink-secondary">Permission Status</div>
           {getPermissionUI()}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DataStorageSection() {
+  const { requestConfirmation } = useStores();
+  const fileInputRef = React.useRef(null);
+
+  const handleExport = () => {
+    storageService.exportData();
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    requestConfirmation({
+      title: 'Import Data?',
+      message: 'This will overwrite your current data with the backup. This cannot be undone.',
+      confirmText: 'Import & Reload',
+      variant: 'warning',
+      onConfirm: async () => {
+        const result = await storageService.importData(file);
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert(result.message);
+        }
+      }
+    });
+
+    // Reset input
+    e.target.value = null;
+  };
+
+  const handleReset = () => {
+    requestConfirmation({
+      title: 'Factory Reset?',
+      message: 'This will wipe ALL data (workspaces, stats, settings). This action is irreversible.',
+      confirmText: 'Reset Everything',
+      variant: 'danger',
+      onConfirm: () => {
+        storageService.clear();
+        window.location.reload();
+      }
+    });
+  };
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center gap-2 text-ink-muted text-sm uppercase tracking-wider font-medium">
+        <Database size={14} />
+        <span>Data & Storage</span>
+      </div>
+
+      <div className="p-5 rounded-xl space-y-4" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept=".json"
+          className="hidden"
+        />
+
+        {/* Export */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Export Data</div>
+            <div className="text-xs text-ink-muted">Download a backup JSON file</div>
+          </div>
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-white/5"
+            style={{ border: '1px solid var(--btn-border-subtle)', color: 'var(--ink-primary)' }}
+          >
+            <Download size={14} />
+            Export
+          </button>
+        </div>
+
+        {/* Import */}
+        <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: 'var(--toggle-border)' }}>
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Import Data</div>
+            <div className="text-xs text-ink-muted">Restore from a backup file</div>
+          </div>
+          <button
+            onClick={handleImportClick}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-white/5"
+            style={{ border: '1px solid var(--btn-border-subtle)', color: 'var(--ink-primary)' }}
+          >
+            <Upload size={14} />
+            Import
+          </button>
+        </div>
+
+        {/* Reset (Danger Zone) */}
+        <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: 'var(--toggle-border)' }}>
+          <div>
+            <div className="text-sm font-medium text-red-400">Factory Reset</div>
+            <div className="text-xs text-ink-muted">Wipe all data and start fresh</div>
+          </div>
+          <button
+            onClick={handleReset}
+            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-red-500/10 text-red-400 border border-red-500/20"
+          >
+            Reset All
+          </button>
         </div>
       </div>
     </section>
