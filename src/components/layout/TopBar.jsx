@@ -5,7 +5,7 @@ import { useStores, useStoreData } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
 export function TopBar({ onOpenShortcutHelp }) {
-  const { workspaceStore, setFocusMode } = useStores();
+  const { workspaceStore } = useStores();
   const { activeId, workspaces } = useStoreData(workspaceStore);
 
   const activeWs = workspaces.find(w => w.id === activeId);
@@ -67,6 +67,9 @@ function FocusToggle() {
   const { timerService, focusMode, setFocusMode } = useStores();
   const { remaining, isRunning } = useStoreData(timerService);
 
+  // Memoized callback for entering focus mode
+  const enterFocusMode = React.useCallback(() => setFocusMode(true), [setFocusMode]);
+
   // If timer is running and NOT in focus mode, show the "Mini Timer" button
   const showTimer = isRunning && !focusMode;
 
@@ -77,7 +80,7 @@ function FocusToggle() {
     return (
       <motion.button
         layoutId="focus-timer-shared"
-        onClick={() => setFocusMode(true)}
+        onClick={enterFocusMode}
         className="flex items-center gap-3 px-4 py-2 rounded-xl bg-panel hover:bg-surface transition-all duration-100 min-w-[120px] justify-center"
       >
         {/* Quiet gold dot - slow breathe */}
@@ -92,7 +95,7 @@ function FocusToggle() {
     <motion.button
       layoutId="focus-timer-shared"
       className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-panel hover:bg-surface transition-all duration-100 min-w-[120px] justify-center"
-      onClick={() => setFocusMode(true)}
+      onClick={enterFocusMode}
     >
       <Target size={14} className="text-ink-muted" />
       <span className="text-xs font-medium tracking-wide text-ink-secondary">Focus</span>
