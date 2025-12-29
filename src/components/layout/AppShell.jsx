@@ -47,7 +47,7 @@ export function AppShell({ children }) {
       {/* Main Content Area: Grows to fill space */}
       <div className="flex-1 flex flex-col min-w-0">
         <div className="h-[80px] shrink-0">
-          <TopBar />
+          <TopBar onOpenShortcutHelp={() => setShowShortcutHelp(true)} />
         </div>
 
         <main className="flex-1 overflow-auto p-10 relative">

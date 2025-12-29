@@ -1,10 +1,10 @@
 import React from 'react';
-import { LayoutGrid, List, Target } from 'lucide-react';
+import { LayoutGrid, List, Target, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useStores, useStoreData } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
-export function TopBar() {
+export function TopBar({ onOpenShortcutHelp }) {
   const { workspaceStore, setFocusMode } = useStores();
   const { activeId, workspaces } = useStoreData(workspaceStore);
 
@@ -46,6 +46,15 @@ export function TopBar() {
         </div>
 
         <div className="w-px h-5 bg-border-color"></div>
+
+        {/* Help Button - Discoverability for shortcuts */}
+        <button
+          onClick={onOpenShortcutHelp}
+          className="p-2 rounded-lg text-ink-muted hover:text-ink-primary hover:bg-panel transition-all duration-100"
+          title="Keyboard Shortcuts (?)"
+        >
+          <HelpCircle size={18} />
+        </button>
 
         {/* Smart Focus Toggle */}
         <FocusToggle />
