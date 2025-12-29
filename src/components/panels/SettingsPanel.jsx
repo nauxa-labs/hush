@@ -173,15 +173,15 @@ export function SettingsPanel() {
             onClick={() => updateSetting('timer.tickSound', !settings.timer.tickSound)}
             className="w-12 h-6 rounded-full transition-colors relative"
             style={{
-              background: settings.timer.tickSound ? 'var(--gold-muted)' : 'var(--panel)',
-              border: settings.timer.tickSound ? 'none' : '1px solid var(--btn-border-subtle)'
+              background: settings.timer.tickSound !== false ? 'var(--gold-muted)' : 'var(--panel)',
+              border: settings.timer.tickSound !== false ? 'none' : '1px solid var(--btn-border-subtle)'
             }}
           >
             <div
               className="absolute top-1 w-4 h-4 rounded-full transition-all"
               style={{
-                background: settings.timer.tickSound ? 'white' : 'var(--ink-muted)',
-                left: settings.timer.tickSound ? '1.75rem' : '0.25rem'
+                background: settings.timer.tickSound !== false ? 'white' : 'var(--ink-muted)',
+                left: settings.timer.tickSound !== false ? '1.75rem' : '0.25rem'
               }}
             />
           </button>
