@@ -117,6 +117,29 @@ export function SettingsPanel() {
           </button>
         </div>
 
+        <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
+          <div>
+            <div className="text-sm font-medium text-ink-primary">Auto-start Focus</div>
+            <div className="text-xs text-ink-muted">Start focus immediately after break</div>
+          </div>
+          <button
+            onClick={() => updateSetting('timer.autoStartPomodoros', !settings.timer.autoStartPomodoros)}
+            className="w-12 h-6 rounded-full transition-colors relative"
+            style={{
+              background: settings.timer.autoStartPomodoros ? 'var(--gold-muted)' : 'var(--panel)',
+              border: settings.timer.autoStartPomodoros ? 'none' : '1px solid var(--btn-border-subtle)'
+            }}
+          >
+            <div
+              className="absolute top-1 w-4 h-4 rounded-full transition-all"
+              style={{
+                background: settings.timer.autoStartPomodoros ? 'white' : 'var(--ink-muted)',
+                left: settings.timer.autoStartPomodoros ? '1.75rem' : '0.25rem'
+              }}
+            />
+          </button>
+        </div>
+
         {/* Quick Presets */}
         <div className="p-5 rounded-xl space-y-3" style={{ background: 'var(--panel)', border: '1px solid var(--toggle-border)' }}>
           <div className="flex justify-between items-center">
