@@ -26,7 +26,11 @@ export function AppShell({ children }) {
   }, []);
 
   // Global keyboard shortcuts with help toggle
-  useKeyboardShortcuts({ onToggleHelp: toggleShortcutHelp });
+  useKeyboardShortcuts({
+    onToggleHelp: toggleShortcutHelp,
+    isHelpOpen: showShortcutHelp,
+    onCloseHelp: () => setShowShortcutHelp(false)
+  });
 
   useEffect(() => {
     document.body.className = '';

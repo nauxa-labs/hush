@@ -7,12 +7,12 @@ import { useStores } from '../../contexts/StoreContext';
  * Shortcuts:
  * - Space: Start/Pause timer (when not typing)
  * - R: Reset timer (when not typing)
- * - Escape: Close panels, exit focus mode, close help
+ * - Escape: Close help modal, close panels, exit focus mode
  * - F: Toggle Focus Mode (when not typing)
  * - ?: Show keyboard shortcut help
  * - 1-4: Quick select timer preset
  */
-export function useKeyboardShortcuts({ onToggleHelp } = {}) {
+export function useKeyboardShortcuts({ onToggleHelp, isHelpOpen, onCloseHelp } = {}) {
   const {
     timerService,
     settingsStore,
@@ -40,12 +40,21 @@ export function useKeyboardShortcuts({ onToggleHelp } = {}) {
         return;
       }
 
-      // Escape always works
+      // Escape always works - priority: help modal > panel > focus mode
       if (e.key === 'Escape') {
         e.preventDefault();
+        // Close help modal first if open
+        if (isHelpOpen) {
+          onCloseHelp?.();
+          return;
+        }
+        // Then close panel
         if (activePanel) {
           setActivePanel(null);
-        } else if (focusMode) {
+          return;
+        }
+        // Finally exit focus mode
+        if (focusMode) {
           setFocusMode(false);
           setActiveFocusTaskId(null);
         }
@@ -100,6 +109,6 @@ export function useKeyboardShortcuts({ onToggleHelp } = {}) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel, onToggleHelp]);
+  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel, onToggleHelp, isHelpOpen, onCloseHelp]);
 }
 
