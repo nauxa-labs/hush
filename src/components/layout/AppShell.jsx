@@ -21,15 +21,16 @@ export function AppShell({ children }) {
   // Shortcut help modal state
   const [showShortcutHelp, setShowShortcutHelp] = useState(false);
 
-  const toggleShortcutHelp = useCallback(() => {
-    setShowShortcutHelp(prev => !prev);
-  }, []);
+  // Memoized callbacks to prevent re-renders and event listener recreation
+  const openShortcutHelp = useCallback(() => setShowShortcutHelp(true), []);
+  const closeShortcutHelp = useCallback(() => setShowShortcutHelp(false), []);
+  const toggleShortcutHelp = useCallback(() => setShowShortcutHelp(prev => !prev), []);
 
   // Global keyboard shortcuts with help toggle
   useKeyboardShortcuts({
     onToggleHelp: toggleShortcutHelp,
     isHelpOpen: showShortcutHelp,
-    onCloseHelp: () => setShowShortcutHelp(false)
+    onCloseHelp: closeShortcutHelp
   });
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export function AppShell({ children }) {
       {/* Main Content Area: Grows to fill space */}
       <div className="flex-1 flex flex-col min-w-0">
         <div className="h-[80px] shrink-0">
-          <TopBar onOpenShortcutHelp={() => setShowShortcutHelp(true)} />
+          <TopBar onOpenShortcutHelp={openShortcutHelp} />
         </div>
 
         <main className="flex-1 overflow-auto p-10 relative">
@@ -64,7 +65,7 @@ export function AppShell({ children }) {
       <OfflineWarning />
       <ShortcutHelpModal
         isOpen={showShortcutHelp}
-        onClose={() => setShowShortcutHelp(false)}
+        onClose={closeShortcutHelp}
       />
 
       {/* Audio: Always Mounted */}
