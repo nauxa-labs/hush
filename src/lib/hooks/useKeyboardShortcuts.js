@@ -7,38 +7,42 @@ import { useStores } from '../../contexts/StoreContext';
  * Shortcuts:
  * - Space: Start/Pause timer (when not typing)
  * - R: Reset timer (when not typing)
- * - Escape: Close panels, exit focus mode
+ * - Escape: Close panels, exit focus mode, close help
  * - F: Toggle Focus Mode (when not typing)
+ * - ?: Show keyboard shortcut help
  * - 1-4: Quick select timer preset
  */
-export function useKeyboardShortcuts() {
+export function useKeyboardShortcuts({ onToggleHelp } = {}) {
   const {
     timerService,
     settingsStore,
     setFocusMode,
     setActivePanel,
     setActiveFocusTaskId,
-    getFocusMode,     // Getter for fresh value
-    getActivePanel    // Getter for fresh value
+    getFocusMode,
+    getActivePanel
   } = useStores();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Get fresh values using getters (avoids stale closures)
       const focusMode = getFocusMode();
       const activePanel = getActivePanel();
 
-      // Ignore if typing in an input, textarea, or contenteditable
       const isTyping =
         e.target.tagName === 'INPUT' ||
         e.target.tagName === 'TEXTAREA' ||
         e.target.isContentEditable;
 
-      // Escape always works (even when typing)
+      // ?: Show help (works even when typing, Shift+/ = ?)
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault();
+        onToggleHelp?.();
+        return;
+      }
+
+      // Escape always works
       if (e.key === 'Escape') {
         e.preventDefault();
-
-        // Priority: close panel first, then exit focus mode
         if (activePanel) {
           setActivePanel(null);
         } else if (focusMode) {
@@ -48,7 +52,6 @@ export function useKeyboardShortcuts() {
         return;
       }
 
-      // Skip other shortcuts if typing
       if (isTyping) return;
 
       // Space: Start/Pause timer
@@ -97,5 +100,6 @@ export function useKeyboardShortcuts() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel]);
+  }, [timerService, settingsStore, setFocusMode, setActivePanel, setActiveFocusTaskId, getFocusMode, getActivePanel, onToggleHelp]);
 }
+

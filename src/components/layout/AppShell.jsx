@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { FocusOverlay } from '../focus/FocusOverlay';
 import { SlidePanel } from '../panels/SlidePanel';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { OfflineWarning } from '../ui/OfflineWarning';
+import { ShortcutHelpModal } from '../ui/ShortcutHelpModal';
 import { YouTubeHiddenPlayer } from '../audio/YouTubeHiddenPlayer';
 import { MiniAudioPlayer } from '../audio/MiniAudioPlayer';
 import { AmbientPlayer } from '../audio/AmbientPlayer';
@@ -17,16 +18,19 @@ export function AppShell({ children }) {
   const { settingsStore } = useStores();
   const theme = useStoreSelector(settingsStore, (state) => state.theme);
 
-  // Global keyboard shortcuts
-  useKeyboardShortcuts();
+  // Shortcut help modal state
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false);
+
+  const toggleShortcutHelp = useCallback(() => {
+    setShowShortcutHelp(prev => !prev);
+  }, []);
+
+  // Global keyboard shortcuts with help toggle
+  useKeyboardShortcuts({ onToggleHelp: toggleShortcutHelp });
 
   useEffect(() => {
-    // Apply theme to body
-    document.body.className = ''; // Clear previous
+    document.body.className = '';
     document.body.classList.add(theme);
-
-    // For glass_light, we might want to override some variables if we used CSS vars, 
-    // but for now the body class handles background/text.
   }, [theme]);
 
   return (
@@ -54,6 +58,10 @@ export function AppShell({ children }) {
       <FocusOverlay />
       <ConfirmDialog />
       <OfflineWarning />
+      <ShortcutHelpModal
+        isOpen={showShortcutHelp}
+        onClose={() => setShowShortcutHelp(false)}
+      />
 
       {/* Audio: Always Mounted */}
       <YouTubeHiddenPlayer />
@@ -62,4 +70,3 @@ export function AppShell({ children }) {
     </div>
   );
 }
-
