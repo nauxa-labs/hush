@@ -17,8 +17,7 @@ export function ListView() {
   const columns = [...activeWs.columns].sort((a, b) => a.order - b.order);
 
   const handleCardClick = (cardId) => {
-    kanbanStore.setSelectedCardId(cardId);
-    setActivePanel('card-detail');
+    setActivePanel(`card:${cardId}`);
   };
 
   return (

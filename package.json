@@ -2,6 +2,8 @@
   "name": "hush-phoenix-v2",
   "private": true,
   "version": "2.2.0",
+  "license": "GPL-3.0",
+  "author": "Nauxa Labs & Refinaldy",
   "type": "module",
   "scripts": {
     "dev": "vite",

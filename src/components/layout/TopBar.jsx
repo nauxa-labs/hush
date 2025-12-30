@@ -5,7 +5,7 @@ import { useStores, useStoreData } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
 export function TopBar({ onOpenShortcutHelp, onToggleMobileDrawer }) {
-  const { workspaceStore, setFocusMode } = useStores();
+  const { workspaceStore, focusMode, setFocusMode } = useStores();
   const { activeId, workspaces } = useStoreData(workspaceStore);
 
   const activeWs = workspaces.find(w => w.id === activeId);
