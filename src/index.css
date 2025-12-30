@@ -43,26 +43,24 @@
     --toggle-border-active: var(--gold-muted);
   }
 
-  /* === Glass Light: Warm Luxury Under Daylight === */
+  /* === Glass Light: Architecture Under Daylight (BRAND) === */
   body.glass_light {
     --bg: #F7F3ED;
-    /* warm linen */
     --surface: #EFE9E0;
-    /* soft cream */
-    --panel: rgba(255, 250, 245, 0.7);
-    --card: rgba(255, 252, 248, 0.85);
+    --panel: rgba(255, 250, 245, 0.65);
+    /* less airy, more authority */
+    --card: rgba(255, 252, 248, 0.82);
+    /* reduced softness */
 
-    --ink-primary: #2C2520;
-    /* warm espresso ink */
-    --ink-secondary: #5C5347;
-    /* warm taupe */
-    --ink-muted: #918779;
-    /* soft clay */
+    --ink-primary: #26201B;
+    /* darker ink for authority */
+    --ink-secondary: #4F463C;
+    --ink-muted: #8A7F70;
 
     --gold-muted: #A8915A;
-    /* warmer antique gold */
+    /* STATE ONLY */
 
-    --border-color: rgba(60, 45, 30, 0.08);
+    --border-color: rgba(60, 45, 30, 0.10);
     --radius: 12px;
     --shadow-architectural: 0 12px 32px rgba(45, 35, 25, 0.06);
     --shadow-soft: 0 6px 16px rgba(45, 35, 25, 0.04);
@@ -79,16 +77,16 @@
     --text-gold: var(--gold-muted);
     --shadow-quiet: var(--shadow-architectural);
 
-    /* === Glass Light Specific: Button & Icon Contrast === */
-    --btn-border-subtle: rgba(60, 45, 30, 0.12);
-    --btn-border-active: rgba(60, 45, 30, 0.22);
-    --icon-on-bg: #5C5347;
-    --icon-on-bg-hover: #2C2520;
-    --toggle-border: rgba(60, 45, 30, 0.10);
+    /* Button & Icon Contrast */
+    --btn-border-subtle: rgba(60, 45, 30, 0.14);
+    --btn-border-active: rgba(60, 45, 30, 0.25);
+    --icon-on-bg: #4F463C;
+    --icon-on-bg-hover: #26201B;
+    --toggle-border: rgba(60, 45, 30, 0.12);
     --toggle-border-active: var(--gold-muted);
   }
 
-  /* === OLED Black: True Battery Saver === */
+  /* === OLED Black: Utility Mode (NOT BRAND) === */
   body.oled_black {
     --bg: #000000;
     --surface: #000000;
@@ -100,9 +98,11 @@
     --ink-muted: #666666;
 
     --gold-muted: #D4AF37;
+    /* allowed for state */
 
     --border-color: #333333;
-    --radius: 12px;
+    --radius: 8px;
+    /* reduced luxury feel */
     --shadow-quiet: none;
     --shadow-soft: none;
 
@@ -125,7 +125,7 @@
     --toggle-border-active: var(--gold-muted);
   }
 
-  /* === Nord: Arctic Cool === */
+  /* === Nord: Utility Mode (NOT BRAND) === */
   body.nord {
     --bg: #2E3440;
     --surface: #3B4252;
@@ -136,10 +136,12 @@
     --ink-secondary: #D8DEE9;
     --ink-muted: #81A1C1;
 
-    --gold-muted: #EBCB8B;
+    --gold-muted: #D8DEE9;
+    /* disabled: use ink-secondary */
 
     --border-color: #4C566A;
-    --radius: 12px;
+    --radius: 8px;
+    /* utility feel */
     --shadow-quiet: 0 10px 30px rgba(0, 0, 0, 0.2);
     --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.1);
 
@@ -159,10 +161,11 @@
     --icon-on-bg: #D8DEE9;
     --icon-on-bg-hover: #ECEFF4;
     --toggle-border: #4C566A;
-    --toggle-border-active: var(--gold-muted);
+    --toggle-border-active: #81A1C1;
+    /* use theme accent, not gold */
   }
 
-  /* === Sepia: Reading / E-Ink Mode === */
+  /* === Sepia: Utility Mode - Reading (NOT BRAND) === */
   body.sepia {
     --bg: #F4ECD8;
     --surface: #EADDC0;
@@ -173,11 +176,12 @@
     --ink-secondary: #5B462E;
     --ink-muted: #8F785C;
 
-    --gold-muted: #A05A2C;
-    /* Leather/Copper accent */
+    --gold-muted: #5B462E;
+    /* disabled: use ink-secondary */
 
     --border-color: rgba(67, 52, 34, 0.1);
-    --radius: 12px;
+    --radius: 8px;
+    /* utility feel */
     --shadow-quiet: 0 10px 30px rgba(67, 52, 34, 0.05);
     --shadow-soft: 0 4px 16px rgba(67, 52, 34, 0.03);
 
@@ -191,17 +195,17 @@
     --text-main: var(--ink-primary);
     --text-muted: var(--ink-muted);
     --text-gold: var(--gold-muted);
-    --shadow-quiet: var(--shadow-quiet);
 
     --btn-border-subtle: rgba(67, 52, 34, 0.1);
     --btn-border-active: rgba(67, 52, 34, 0.2);
     --icon-on-bg: #5B462E;
     --icon-on-bg-hover: #433422;
     --toggle-border: rgba(67, 52, 34, 0.1);
-    --toggle-border-active: var(--gold-muted);
+    --toggle-border-active: #A05A2C;
+    /* theme accent, not gold */
   }
 
-  /* === Dracula: High Contrast Dark === */
+  /* === Dracula: Utility Mode - Contrast (NOT BRAND) === */
   body.dracula {
     --bg: #282A36;
     --surface: #44475A;
@@ -212,11 +216,12 @@
     --ink-secondary: #BD93F9;
     --ink-muted: #6272A4;
 
-    --gold-muted: #FFB86C;
-    /* Orange/Gold from Dracula palette */
+    --gold-muted: #BD93F9;
+    /* disabled: use purple accent */
 
     --border-color: #6272A4;
-    --radius: 12px;
+    --radius: 8px;
+    /* utility feel */
     --shadow-quiet: 0 10px 30px rgba(0, 0, 0, 0.3);
     --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.15);
 
@@ -236,7 +241,8 @@
     --icon-on-bg: #F8F8F2;
     --icon-on-bg-hover: #FFFFFF;
     --toggle-border: #6272A4;
-    --toggle-border-active: var(--gold-muted);
+    --toggle-border-active: #FFB86C;
+    /* theme orange accent */
   }
 
   body {

@@ -27,12 +27,12 @@ export function SettingsPanel() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { id: 'glass_dark', name: 'Glass Dark', desc: 'Deep focus, premium feel' },
-            { id: 'glass_light', name: 'Glass Light', desc: 'Airy, clean aesthetics' },
-            { id: 'oled_black', name: 'OLED Black', desc: 'True black battery saver' },
-            { id: 'nord', name: 'Nord', desc: 'Arctic cool palette' },
-            { id: 'sepia', name: 'Sepia', desc: 'Warm reading mode' },
-            { id: 'dracula', name: 'Dracula', desc: 'High contrast dark' }
+            { id: 'glass_dark', name: 'Glass Dark', desc: 'Quiet luxury, deep focus' },
+            { id: 'glass_light', name: 'Glass Light', desc: 'Architecture under daylight' },
+            { id: 'oled_black', name: 'OLED Black', desc: 'Battery saver', utility: true },
+            { id: 'nord', name: 'Nord', desc: 'Developer mode', utility: true },
+            { id: 'sepia', name: 'Sepia', desc: 'Reading mode', utility: true },
+            { id: 'dracula', name: 'Dracula', desc: 'Contrast mode', utility: true }
           ].map(theme => (
             <button
               key={theme.id}
