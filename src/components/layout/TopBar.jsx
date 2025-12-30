@@ -64,15 +64,15 @@ export function TopBar({ onOpenShortcutHelp, onToggleMobileDrawer }) {
           <HelpCircle size={18} />
         </button>
 
-        {/* Actions */}
+        {/* Focus Mode Button */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setFocusMode(true)}
-            className="btn-focus-mode h-9 px-4 rounded-lg bg-panel hover:bg-surface border border-border-color flex items-center gap-2 text-sm font-medium transition-all group"
+            className="btn-focus-mode h-9 px-4 rounded-xl bg-panel hover:bg-surface border border-border-color flex items-center gap-2.5 text-sm transition-all group"
             title="Enter Focus Mode (F)"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-red-500 group-hover:shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-shadow" />
-            <span>Focus Mode</span>
+            <Target size={14} className="text-ink-muted group-hover:text-gold-muted transition-colors" />
+            <span className="font-medium text-ink-secondary group-hover:text-ink-primary transition-colors">Focus</span>
           </button>
         </div>
       </div>
