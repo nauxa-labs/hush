@@ -6,6 +6,7 @@ export function EditableText({
   onSave,
   className,
   multiline = false,
+  activationMode = 'click', // 'click' | 'double-click'
   placeholder = 'Type here...'
 }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -25,7 +26,7 @@ export function EditableText({
 
   const handleSave = () => {
     if (localValue.trim() !== value) {
-      onSave(localValue.trim() || placeholder); // Prevent empty save if desired, or allow
+      onSave(localValue.trim() || placeholder);
     }
     setIsEditing(false);
   };
@@ -54,13 +55,26 @@ export function EditableText({
           className
         )}
         placeholder={placeholder}
+        onClick={(e) => e.stopPropagation()}
+        onDoubleClick={(e) => e.stopPropagation()}
       />
     );
   }
 
   return (
     <div
-      onClick={() => setIsEditing(true)}
+      onClick={(e) => {
+        if (activationMode === 'click') {
+          e.stopPropagation();
+          setIsEditing(true);
+        }
+      }}
+      onDoubleClick={(e) => {
+        if (activationMode === 'double-click') {
+          e.stopPropagation();
+          setIsEditing(true);
+        }
+      }}
       className={clsx("cursor-text hover:bg-white/5 rounded", className)}
     >
       {value || <span className="opacity-50 italic">{placeholder}</span>}
