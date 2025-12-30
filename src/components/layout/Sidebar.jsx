@@ -45,13 +45,13 @@ export function Sidebar({ onMobileClose }) {
   return (
     <aside className="border-r border-theme bg-bg-panel flex flex-col h-full transition-colors duration-500">
       {/* Brand */}
-      <div className="p-6 pb-2">
+      <div className="px-6 py-6">
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-text-gold animate-pulse"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-text-gold animate-pulse shrink-0"></div>
           <img
             src={wordmarkSrc}
             alt="HUSH"
-            className="h-4 opacity-90"
+            className="w-20 object-contain"
           />
         </div>
       </div>
