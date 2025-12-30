@@ -46,8 +46,8 @@ export class Store {
         if (raw) {
           this.data = JSON.parse(raw);
           this.emit('change', this.data);
-          // Save to new adapter
-          this._save();
+          // Save to new adapter (await to ensure migration completes)
+          await this._save();
         }
       }
     } else {
@@ -85,9 +85,9 @@ export class Store {
     }
   }
 
-  // Call after any mutation
-  _commit() {
-    this._save();
+  // Call after any mutation - async to ensure save completes before emit
+  async _commit() {
+    await this._save();
     this.emit('change', this.data);
   }
 }

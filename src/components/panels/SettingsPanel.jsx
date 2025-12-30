@@ -38,15 +38,19 @@ export function SettingsPanel() {
               key={theme.id}
               onClick={() => {
                 updateSetting('theme', theme.id);
-                // Optional: Trigger a toast or effect here
               }}
-              className="p-4 rounded-xl transition-all text-left"
+              className="p-4 rounded-xl transition-all text-left relative"
               style={{
                 background: settings.theme === theme.id ? 'var(--panel)' : 'transparent',
                 border: settings.theme === theme.id ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
                 color: settings.theme === theme.id ? 'var(--ink-primary)' : 'var(--ink-secondary)'
               }}
             >
+              {theme.utility && (
+                <span className="absolute top-2 right-2 text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/5 text-ink-muted">
+                  Utility
+                </span>
+              )}
               <div className="font-medium mb-1">{theme.name}</div>
               <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>{theme.desc}</div>
             </button>
