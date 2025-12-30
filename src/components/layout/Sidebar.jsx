@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { useStores, useStoreData } from '../../contexts/StoreContext';
+import { useStores, useStoreData, useStoreSelector } from '../../contexts/StoreContext';
 import { Briefcase, Plus, BarChart2, Music, Settings, Check, X } from 'lucide-react';
 import clsx from 'clsx';
 
 export function Sidebar({ onMobileClose }) {
-  const { workspaceStore, setActivePanel } = useStores();
+  const { workspaceStore, settingsStore, setActivePanel } = useStores();
   const { workspaces, activeId } = useStoreData(workspaceStore);
+  const theme = useStoreSelector(settingsStore, (s) => s.theme);
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState('');
+
+  // Determine if current theme is light variant
+  const isLightTheme = theme === 'glass_light' || theme === 'sepia';
+  const wordmarkSrc = isLightTheme
+    ? '/branding/hush-wordmark-light.png'
+    : '/branding/hush-wordmark-dark.png';
 
   const handleStartEdit = (ws) => {
     setEditingId(ws.id);
@@ -39,9 +46,13 @@ export function Sidebar({ onMobileClose }) {
     <aside className="border-r border-theme bg-bg-panel flex flex-col h-full transition-colors duration-500">
       {/* Brand */}
       <div className="p-6 pb-2">
-        <div className="text-text-gold font-bold tracking-[4px] text-xs flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-text-gold animate-pulse"></div>
-          HUSH
+          <img
+            src={wordmarkSrc}
+            alt="HUSH"
+            className="h-4 opacity-90"
+          />
         </div>
       </div>
 
