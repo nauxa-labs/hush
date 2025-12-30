@@ -13,6 +13,7 @@ import { MiniAudioPlayer } from '../audio/MiniAudioPlayer';
 import { AmbientPlayer } from '../audio/AmbientPlayer';
 import { useKeyboardShortcuts } from '../../lib/hooks/useKeyboardShortcuts';
 
+import { OnboardingService } from '../../services/OnboardingService';
 import { useStores, useStoreSelector } from '../../contexts/StoreContext';
 
 export function AppShell({ children }) {
@@ -39,6 +40,20 @@ export function AppShell({ children }) {
     document.body.className = '';
     document.body.classList.add(theme);
   }, [theme]);
+
+  // Initialize Onboarding
+  useEffect(() => {
+    const onboarding = new OnboardingService(settingsStore);
+    const timer = setTimeout(() => {
+      onboarding.start();
+    }, 1000);
+
+    // Cleanup: Destroy driver if component unmounts to prevent zombie overlays
+    return () => {
+      clearTimeout(timer);
+      onboarding.destroy();
+    };
+  }, []); // Run once on mount
 
   // Mobile drawer backdrop click handler
   const closeMobileDrawer = () => setIsMobileDrawerOpen(false);

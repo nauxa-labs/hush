@@ -123,7 +123,7 @@ export function KanbanBoard() {
       onDragEnd={handleDragEnd}
     >
       {/* Mobile Snap Scroll Container */}
-      <div className="flex h-full gap-4 md:gap-8 overflow-x-auto pb-4 px-4 md:px-2 snap-x snap-mandatory touch-pan-x">
+      <div className="kanban-board flex h-full gap-4 md:gap-8 overflow-x-auto pb-4 px-4 md:px-2 snap-x snap-mandatory touch-pan-x">
         {activeWs.columns.map(col => (
           <KanbanColumn
             key={col.id}

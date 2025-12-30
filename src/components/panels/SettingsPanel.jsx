@@ -26,31 +26,31 @@ export function SettingsPanel() {
           <span>Appearance</span>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => updateSetting('theme', 'glass_dark')}
-            className="p-4 rounded-xl transition-all text-left"
-            style={{
-              background: settings.theme === 'glass_dark' ? 'var(--panel)' : 'transparent',
-              border: settings.theme === 'glass_dark' ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
-              color: settings.theme === 'glass_dark' ? 'var(--ink-primary)' : 'var(--ink-secondary)'
-            }}
-          >
-            <div className="font-medium mb-1">Glass Dark</div>
-            <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>Deep focus, premium feel</div>
-          </button>
-
-          <button
-            onClick={() => updateSetting('theme', 'glass_light')}
-            className="p-4 rounded-xl transition-all text-left"
-            style={{
-              background: settings.theme === 'glass_light' ? 'var(--panel)' : 'transparent',
-              border: settings.theme === 'glass_light' ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
-              color: settings.theme === 'glass_light' ? 'var(--ink-primary)' : 'var(--ink-secondary)'
-            }}
-          >
-            <div className="font-medium mb-1">Glass Light</div>
-            <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>Airy, clean aesthetics</div>
-          </button>
+          {[
+            { id: 'glass_dark', name: 'Glass Dark', desc: 'Deep focus, premium feel' },
+            { id: 'glass_light', name: 'Glass Light', desc: 'Airy, clean aesthetics' },
+            { id: 'oled_black', name: 'OLED Black', desc: 'True black battery saver' },
+            { id: 'nord', name: 'Nord', desc: 'Arctic cool palette' },
+            { id: 'sepia', name: 'Sepia', desc: 'Warm reading mode' },
+            { id: 'dracula', name: 'Dracula', desc: 'High contrast dark' }
+          ].map(theme => (
+            <button
+              key={theme.id}
+              onClick={() => {
+                updateSetting('theme', theme.id);
+                // Optional: Trigger a toast or effect here
+              }}
+              className="p-4 rounded-xl transition-all text-left"
+              style={{
+                background: settings.theme === theme.id ? 'var(--panel)' : 'transparent',
+                border: settings.theme === theme.id ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
+                color: settings.theme === theme.id ? 'var(--ink-primary)' : 'var(--ink-secondary)'
+              }}
+            >
+              <div className="font-medium mb-1">{theme.name}</div>
+              <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>{theme.desc}</div>
+            </button>
+          ))}
         </div>
       </section>
 

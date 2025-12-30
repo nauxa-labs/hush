@@ -14,8 +14,8 @@ export const BADGES = [
 ];
 
 export class AchievementStore extends Store {
-  constructor(statsStore) {
-    super('hush_achievements_v2');
+  constructor(statsStore, adapter) {
+    super('hush_achievements_v2', adapter);
     this.statsStore = statsStore;
     if (!this.data) {
       this.data = { unlocked: [] }; // Array of badge IDs

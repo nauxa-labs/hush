@@ -26,7 +26,7 @@ export function Timer() {
   const ModeIcon = modeConfig.icon;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="timer-display flex flex-col items-center">
       {/* Mode Indicator Badge */}
       <div className={clsx(
         "flex items-center gap-2 px-4 py-2 rounded-full mb-6",

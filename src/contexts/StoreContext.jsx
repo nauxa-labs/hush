@@ -10,16 +10,22 @@ import { AudioService } from '../lib/services/AudioService';
 import { NotificationService } from '../lib/services/NotificationService';
 import { ToastProvider, useToast } from '../components/ui/Toast';
 
+import { LocalStorageAdapter } from '../services/storage/LocalStorageAdapter';
+
 // 1. Create Context
 const StoreContext = createContext(null);
 
 // 2. Instantiate Stores (Singletons)
-const workspaceStore = new WorkspaceStore();
-const kanbanStore = new KanbanStore();
-const settingsStore = new SettingsStore();
-const statsStore = new StatsStore();
-const achievementStore = new AchievementStore(statsStore);
-const audioStore = new AudioStore();
+// Shared Persistence Adapter
+const storageAdapter = new LocalStorageAdapter();
+
+const workspaceStore = new WorkspaceStore(storageAdapter);
+const kanbanStore = new KanbanStore(storageAdapter);
+const settingsStore = new SettingsStore(storageAdapter);
+const statsStore = new StatsStore(storageAdapter);
+const achievementStore = new AchievementStore(statsStore, storageAdapter); // Ensure AchievementStore accepts adapter if it inherits
+const audioStore = new AudioStore(storageAdapter);
+
 const timerService = new TimerService(statsStore, workspaceStore, settingsStore);
 const audioService = new AudioService(settingsStore, timerService);
 const notificationService = new NotificationService(settingsStore, timerService);
