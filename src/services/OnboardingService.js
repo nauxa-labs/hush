@@ -31,7 +31,7 @@ export class OnboardingService {
         element: 'aside',
         popover: {
           title: 'Workspaces & Shortcuts',
-          description: 'Manage multiple projects here. Use the bottom panel to access functionality like Statistics and Settings.',
+          description: 'Manage multiple projects here. Use the bottom panel to access Statistics and Settings.',
           side: "right",
           align: 'start'
         }
@@ -46,19 +46,10 @@ export class OnboardingService {
         }
       },
       {
-        element: '.timer-display',
-        popover: {
-          title: 'Focus Timer',
-          description: 'The heart of Hush. Start a Pomodoro session here. It tracks your stats automatically.',
-          side: "bottom",
-          align: 'center'
-        }
-      },
-      {
         element: '.btn-focus-mode',
         popover: {
-          title: 'Deep Focus Mode',
-          description: 'Enter a distraction-free environment. Full screen, just you and your task.',
+          title: 'Focus Mode & Timer',
+          description: 'Click here to enter deep focus. A Pomodoro timer will help you stay on track and automatically record your progress.',
           side: "left",
           align: 'center'
         }
@@ -79,7 +70,7 @@ export class OnboardingService {
     if (existingCards.length > 0) return; // Don't add sample if user already has tasks
 
     // Create a sample task
-    this.kanbanStore.createCard(activeWs.id, firstColumn.id, '🎯 Complete this task to start focusing!');
+    this.kanbanStore.createCard(activeWs.id, firstColumn.id, '🎯 Onboarding Task!');
   }
 
   start() {
