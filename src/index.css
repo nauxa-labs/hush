@@ -264,7 +264,8 @@ button:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 1px var(--gold-muted);
+  box-shadow: 0 0 0 2px var(--gold-muted);
+  outline-offset: 2px;
 }
 
 input:focus-visible {
