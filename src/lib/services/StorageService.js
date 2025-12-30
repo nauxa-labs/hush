@@ -213,6 +213,87 @@ class StorageService {
       errors
     };
   }
+  // === Data Export / Import ===
+
+  /**
+   * Export all HUSH data to a JSON file
+   */
+  exportData() {
+    const keys = [
+      'hush_workspaces_v2',
+      'hush_kanban_v2',
+      'hush_settings_v2',
+      'hush_stats_v2',
+      'hush_achievements_v2',
+      'hush_audio_playlist',
+      'hush_timer_v2'
+    ];
+
+    const backup = {
+      version: 1,
+      timestamp: Date.now(),
+      stores: {}
+    };
+
+    keys.forEach(key => {
+      const data = this.get(key);
+      if (data) {
+        backup.stores[key] = data;
+      }
+    });
+
+    // Create and download file
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `hush-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    return true;
+  }
+
+  /**
+   * Import data from a JSON object
+   * Returns: { success: boolean, message: string }
+   */
+  async importData(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const backup = JSON.parse(e.target.result);
+
+          // Basic validation
+          if (!backup.stores || typeof backup.stores !== 'object') {
+            resolve({ success: false, message: 'Invalid backup file format' });
+            return;
+          }
+
+          // Restore each key
+          Object.keys(backup.stores).forEach(key => {
+            // We use this.set which handles stringification
+            this.set(key, backup.stores[key]);
+          });
+
+          resolve({ success: true, message: 'Import successful' });
+        } catch (error) {
+          console.error('[StorageService] Import failed:', error);
+          resolve({ success: false, message: 'Failed to parse backup file' });
+        }
+      };
+
+      reader.onerror = () => {
+        resolve({ success: false, message: 'Failed to read file' });
+      };
+
+      reader.readAsText(file);
+    });
+  }
 }
 
 // Singleton instance

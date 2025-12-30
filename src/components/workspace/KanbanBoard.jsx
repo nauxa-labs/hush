@@ -30,7 +30,7 @@ export function KanbanBoard() {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 200,
+        delay: 250, // Increased to 250ms so user can scroll without triggering drag
         tolerance: 5,
       },
     })
@@ -122,7 +122,8 @@ export function KanbanBoard() {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex h-full gap-8 overflow-x-auto pb-4 px-2">
+      {/* Mobile Snap Scroll Container */}
+      <div className="kanban-board flex h-full gap-4 md:gap-8 overflow-x-auto pb-4 px-4 md:px-2 snap-x snap-mandatory touch-pan-x">
         {activeWs.columns.map(col => (
           <KanbanColumn
             key={col.id}

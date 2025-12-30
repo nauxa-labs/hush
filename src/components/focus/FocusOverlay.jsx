@@ -69,6 +69,13 @@ export function FocusOverlay() {
           >
             End Session
           </motion.button>
+
+          {/* Brand Watermark */}
+          <img
+            src="/branding/hush-monogram-dark.png"
+            alt=""
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 h-6 opacity-10 pointer-events-none"
+          />
         </motion.div>
       )}
     </AnimatePresence>

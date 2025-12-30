@@ -20,7 +20,7 @@ export function KanbanColumn({ column, cards, workspaceId, isOver }) {
 
   return (
     <div className={clsx(
-      "flex flex-col w-[300px] shrink-0 h-full group/column transition-all duration-200",
+      "flex flex-col w-[85vw] md:w-[300px] shrink-0 h-full group/column transition-all duration-200 snap-center first:ml-0 last:mr-4",
       showDropHighlight && "scale-[1.01]"
     )}>
       {/* Header */}

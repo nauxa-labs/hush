@@ -43,26 +43,24 @@
     --toggle-border-active: var(--gold-muted);
   }
 
-  /* === Glass Light: Warm Luxury Under Daylight === */
+  /* === Glass Light: Architecture Under Daylight (BRAND) === */
   body.glass_light {
     --bg: #F7F3ED;
-    /* warm linen */
     --surface: #EFE9E0;
-    /* soft cream */
-    --panel: rgba(255, 250, 245, 0.7);
-    --card: rgba(255, 252, 248, 0.85);
+    --panel: rgba(255, 250, 245, 0.65);
+    /* less airy, more authority */
+    --card: rgba(255, 252, 248, 0.82);
+    /* reduced softness */
 
-    --ink-primary: #2C2520;
-    /* warm espresso ink */
-    --ink-secondary: #5C5347;
-    /* warm taupe */
-    --ink-muted: #918779;
-    /* soft clay */
+    --ink-primary: #26201B;
+    /* darker ink for authority */
+    --ink-secondary: #4F463C;
+    --ink-muted: #8A7F70;
 
     --gold-muted: #A8915A;
-    /* warmer antique gold */
+    /* STATE ONLY */
 
-    --border-color: rgba(60, 45, 30, 0.08);
+    --border-color: rgba(60, 45, 30, 0.10);
     --radius: 12px;
     --shadow-architectural: 0 12px 32px rgba(45, 35, 25, 0.06);
     --shadow-soft: 0 6px 16px rgba(45, 35, 25, 0.04);
@@ -79,13 +77,172 @@
     --text-gold: var(--gold-muted);
     --shadow-quiet: var(--shadow-architectural);
 
-    /* === Glass Light Specific: Button & Icon Contrast === */
-    --btn-border-subtle: rgba(60, 45, 30, 0.12);
-    --btn-border-active: rgba(60, 45, 30, 0.22);
-    --icon-on-bg: #5C5347;
-    --icon-on-bg-hover: #2C2520;
-    --toggle-border: rgba(60, 45, 30, 0.10);
+    /* Button & Icon Contrast */
+    --btn-border-subtle: rgba(60, 45, 30, 0.14);
+    --btn-border-active: rgba(60, 45, 30, 0.25);
+    --icon-on-bg: #4F463C;
+    --icon-on-bg-hover: #26201B;
+    --toggle-border: rgba(60, 45, 30, 0.12);
     --toggle-border-active: var(--gold-muted);
+  }
+
+  /* === OLED Black: Utility Mode (NOT BRAND) === */
+  body.oled_black {
+    --bg: #000000;
+    --surface: #000000;
+    --panel: #000000;
+    --card: #121212;
+
+    --ink-primary: #FFFFFF;
+    --ink-secondary: #B3B3B3;
+    --ink-muted: #666666;
+
+    --gold-muted: #D4AF37;
+    /* allowed for state */
+
+    --border-color: #333333;
+    --radius: 8px;
+    /* reduced luxury feel */
+    --shadow-quiet: none;
+    --shadow-soft: none;
+
+    --scroll-thumb: #333333;
+    --scroll-thumb-hover: #555555;
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+
+    --btn-border-subtle: #333333;
+    --btn-border-active: #555555;
+    --icon-on-bg: #888888;
+    --icon-on-bg-hover: #FFFFFF;
+    --toggle-border: #333333;
+    --toggle-border-active: var(--gold-muted);
+  }
+
+  /* === Nord: Utility Mode (NOT BRAND) === */
+  body.nord {
+    --bg: #2E3440;
+    --surface: #3B4252;
+    --panel: #434C5E;
+    --card: #4C566A;
+
+    --ink-primary: #ECEFF4;
+    --ink-secondary: #D8DEE9;
+    --ink-muted: #81A1C1;
+
+    --gold-muted: #D8DEE9;
+    /* disabled: use ink-secondary */
+
+    --border-color: #4C566A;
+    --radius: 8px;
+    /* utility feel */
+    --shadow-quiet: 0 10px 30px rgba(0, 0, 0, 0.2);
+    --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+    --scroll-thumb: #4C566A;
+    --scroll-thumb-hover: #5E81AC;
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+
+    --btn-border-subtle: #4C566A;
+    --btn-border-active: #81A1C1;
+    --icon-on-bg: #D8DEE9;
+    --icon-on-bg-hover: #ECEFF4;
+    --toggle-border: #4C566A;
+    --toggle-border-active: #81A1C1;
+    /* use theme accent, not gold */
+  }
+
+  /* === Sepia: Utility Mode - Reading (NOT BRAND) === */
+  body.sepia {
+    --bg: #F4ECD8;
+    --surface: #EADDC0;
+    --panel: #E4D5B7;
+    --card: #FDF6E3;
+
+    --ink-primary: #433422;
+    --ink-secondary: #5B462E;
+    --ink-muted: #8F785C;
+
+    --gold-muted: #5B462E;
+    /* disabled: use ink-secondary */
+
+    --border-color: rgba(67, 52, 34, 0.1);
+    --radius: 8px;
+    /* utility feel */
+    --shadow-quiet: 0 10px 30px rgba(67, 52, 34, 0.05);
+    --shadow-soft: 0 4px 16px rgba(67, 52, 34, 0.03);
+
+    --scroll-thumb: rgba(67, 52, 34, 0.15);
+    --scroll-thumb-hover: rgba(67, 52, 34, 0.25);
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+
+    --btn-border-subtle: rgba(67, 52, 34, 0.1);
+    --btn-border-active: rgba(67, 52, 34, 0.2);
+    --icon-on-bg: #5B462E;
+    --icon-on-bg-hover: #433422;
+    --toggle-border: rgba(67, 52, 34, 0.1);
+    --toggle-border-active: #A05A2C;
+    /* theme accent, not gold */
+  }
+
+  /* === Dracula: Utility Mode - Contrast (NOT BRAND) === */
+  body.dracula {
+    --bg: #282A36;
+    --surface: #44475A;
+    --panel: #6272A4;
+    --card: #44475A;
+
+    --ink-primary: #F8F8F2;
+    --ink-secondary: #BD93F9;
+    --ink-muted: #6272A4;
+
+    --gold-muted: #BD93F9;
+    /* disabled: use purple accent */
+
+    --border-color: #6272A4;
+    --radius: 8px;
+    /* utility feel */
+    --shadow-quiet: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    --scroll-thumb: #6272A4;
+    --scroll-thumb-hover: #BD93F9;
+
+    /* Compatibility aliases */
+    --bg-deep: var(--bg);
+    --bg-panel: var(--surface);
+    --bg-card: var(--card);
+    --text-main: var(--ink-primary);
+    --text-muted: var(--ink-muted);
+    --text-gold: var(--gold-muted);
+
+    --btn-border-subtle: #6272A4;
+    --btn-border-active: #BD93F9;
+    --icon-on-bg: #F8F8F2;
+    --icon-on-bg-hover: #FFFFFF;
+    --toggle-border: #6272A4;
+    --toggle-border-active: #FFB86C;
+    /* theme orange accent */
   }
 
   body {
@@ -264,7 +421,8 @@ button:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 1px var(--gold-muted);
+  box-shadow: 0 0 0 2px var(--gold-muted);
+  outline-offset: 2px;
 }
 
 input:focus-visible {
@@ -294,4 +452,95 @@ input:focus-visible {
 /* === MOTION: 100ms ease-out everywhere === */
 * {
   transition-timing-function: ease-out;
+}
+
+/* === ONBOARDING (Driver.js) CUSTOMIZATION === */
+.driver-popover {
+  background-color: var(--surface) !important;
+  color: var(--ink-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-quiet) !important;
+  padding: 20px !important;
+  max-width: 350px !important;
+}
+
+.driver-popover-title {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.125rem !important;
+  /* text-lg */
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+  color: var(--ink-primary) !important;
+}
+
+.driver-popover-description {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.875rem !important;
+  /* text-sm */
+  line-height: 1.5 !important;
+  color: var(--ink-muted) !important;
+  margin-bottom: 16px !important;
+}
+
+.driver-popover-footer {
+  margin-top: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.driver-popover-progress-text {
+  color: var(--ink-muted) !important;
+  font-size: 0.75rem !important;
+  /* text-xs */
+}
+
+.driver-popover-navigation-btns {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+.driver-popover-btn {
+  background-color: var(--panel) !important;
+  color: var(--ink-primary) !important;
+  border: 1px solid var(--btn-border-subtle) !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-size: 0.8125rem !important;
+  /* text-xs/sm */
+  text-shadow: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.driver-popover-btn:hover {
+  background-color: var(--btn-border-subtle) !important;
+}
+
+/* Primary "Next" / "Done" Button */
+.driver-popover-next-btn {
+  background-color: var(--gold-muted) !important;
+  color: #000 !important;
+  /* Contrast text on gold */
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+.driver-popover-next-btn:hover {
+  opacity: 0.9 !important;
+}
+
+.driver-popover-close-btn {
+  color: var(--ink-muted) !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: var(--ink-primary) !important;
+}
+
+/* Overlay Opacity Fix */
+.driver-overlay {
+  opacity: 0.6 !important;
+  /* Lighter than default 0.75 */
 }
