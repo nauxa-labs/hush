@@ -24,6 +24,12 @@ export class TimerService extends Store {
       this.data.isRunning = false;
       this._commit();
     }
+
+    // Fix: Initialize sessionCount for existing users to prevent NaN
+    if (typeof this.data.sessionCount !== 'number') {
+      this.data.sessionCount = 0;
+      this._commit();
+    }
   }
 
   setActiveCard(cardId) {
