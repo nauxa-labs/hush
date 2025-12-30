@@ -1,17 +1,25 @@
 import React from 'react';
-import { LayoutGrid, List, Target, HelpCircle } from 'lucide-react';
+import { LayoutGrid, List, Target, HelpCircle, Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useStores, useStoreData } from '../../contexts/StoreContext';
 import clsx from 'clsx';
 
-export function TopBar({ onOpenShortcutHelp }) {
-  const { workspaceStore } = useStores();
+export function TopBar({ onOpenShortcutHelp, onToggleMobileDrawer }) {
+  const { workspaceStore, setFocusMode } = useStores();
   const { activeId, workspaces } = useStoreData(workspaceStore);
 
   const activeWs = workspaces.find(w => w.id === activeId);
 
   return (
-    <header className="h-[80px] px-8 flex items-center justify-between border-b border-border-color bg-surface z-10">
+    <header className="h-[80px] px-4 md:px-8 flex items-center justify-between border-b border-border-color bg-surface z-10">
+      {/* Mobile Menu Trigger */}
+      <button
+        onClick={onToggleMobileDrawer}
+        className="md:hidden p-2 -ml-2 mr-2 text-ink-muted hover:text-ink-primary"
+        aria-label="Open Menu"
+      >
+        <Menu size={20} />
+      </button>
       {/* Workspace Name - Quiet, not loud */}
       <div>
         <h1 className="text-lg font-normal tracking-tight text-ink-primary">
@@ -56,8 +64,17 @@ export function TopBar({ onOpenShortcutHelp }) {
           <HelpCircle size={18} />
         </button>
 
-        {/* Smart Focus Toggle */}
-        <FocusToggle />
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setFocusMode(true)}
+            className="btn-focus-mode h-9 px-4 rounded-lg bg-panel hover:bg-surface border border-border-color flex items-center gap-2 text-sm font-medium transition-all group"
+            title="Enter Focus Mode (F)"
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500 group-hover:shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-shadow" />
+            <span>Focus Mode</span>
+          </button>
+        </div>
       </div>
     </header>
   );

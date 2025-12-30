@@ -27,31 +27,35 @@ export function SettingsPanel() {
           <span>Appearance</span>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => updateSetting('theme', 'glass_dark')}
-            className="p-4 rounded-xl transition-all text-left"
-            style={{
-              background: settings.theme === 'glass_dark' ? 'var(--panel)' : 'transparent',
-              border: settings.theme === 'glass_dark' ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
-              color: settings.theme === 'glass_dark' ? 'var(--ink-primary)' : 'var(--ink-secondary)'
-            }}
-          >
-            <div className="font-medium mb-1">Glass Dark</div>
-            <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>Deep focus, premium feel</div>
-          </button>
-
-          <button
-            onClick={() => updateSetting('theme', 'glass_light')}
-            className="p-4 rounded-xl transition-all text-left"
-            style={{
-              background: settings.theme === 'glass_light' ? 'var(--panel)' : 'transparent',
-              border: settings.theme === 'glass_light' ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
-              color: settings.theme === 'glass_light' ? 'var(--ink-primary)' : 'var(--ink-secondary)'
-            }}
-          >
-            <div className="font-medium mb-1">Glass Light</div>
-            <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>Airy, clean aesthetics</div>
-          </button>
+          {[
+            { id: 'glass_dark', name: 'Glass Dark', desc: 'Quiet luxury, deep focus' },
+            { id: 'glass_light', name: 'Glass Light', desc: 'Architecture under daylight' },
+            { id: 'oled_black', name: 'OLED Black', desc: 'Battery saver', utility: true },
+            { id: 'nord', name: 'Nord', desc: 'Developer mode', utility: true },
+            { id: 'sepia', name: 'Sepia', desc: 'Reading mode', utility: true },
+            { id: 'dracula', name: 'Dracula', desc: 'Contrast mode', utility: true }
+          ].map(theme => (
+            <button
+              key={theme.id}
+              onClick={() => {
+                updateSetting('theme', theme.id);
+              }}
+              className="p-4 rounded-xl transition-all text-left relative"
+              style={{
+                background: settings.theme === theme.id ? 'var(--panel)' : 'transparent',
+                border: settings.theme === theme.id ? '1.5px solid var(--gold-muted)' : '1px solid var(--toggle-border)',
+                color: settings.theme === theme.id ? 'var(--ink-primary)' : 'var(--ink-secondary)'
+              }}
+            >
+              {theme.utility && (
+                <span className="absolute top-2 right-2 text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/5 text-ink-muted">
+                  Utility
+                </span>
+              )}
+              <div className="font-medium mb-1">{theme.name}</div>
+              <div className="text-xs" style={{ color: 'var(--ink-muted)' }}>{theme.desc}</div>
+            </button>
+          ))}
         </div>
       </section>
 

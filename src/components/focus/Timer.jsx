@@ -26,7 +26,7 @@ export function Timer() {
   const ModeIcon = modeConfig.icon;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="timer-display flex flex-col items-center">
       {/* Mode Indicator Badge */}
       <div className={clsx(
         "flex items-center gap-2 px-4 py-2 rounded-full mb-6",
@@ -59,6 +59,7 @@ export function Timer() {
             color: 'var(--icon-on-bg)'
           }}
           title="Skip to next"
+          aria-label="Skip to next session"
         >
           <SkipForward size={18} />
         </button>
@@ -67,6 +68,7 @@ export function Timer() {
         <button
           onClick={() => isRunning ? timerService.pause() : timerService.start()}
           className="group relative flex items-center justify-center w-20 h-20 rounded-full bg-text-gold text-bg-deep hover:brightness-110 transition-all transform hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(182,162,106,0.3)]"
+          aria-label={isRunning ? "Pause Timer" : "Start Timer"}
         >
           {isRunning ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" className="ml-1" />}
         </button>
@@ -80,6 +82,7 @@ export function Timer() {
             color: 'var(--icon-on-bg)'
           }}
           title="Reset timer"
+          aria-label="Reset Timer"
         >
           <RotateCcw size={18} />
         </button>

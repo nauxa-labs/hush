@@ -3,7 +3,7 @@ import { useStores, useStoreData } from '../../contexts/StoreContext';
 import { Briefcase, Plus, BarChart2, Music, Settings, Check, X } from 'lucide-react';
 import clsx from 'clsx';
 
-export function Sidebar() {
+export function Sidebar({ onMobileClose }) {
   const { workspaceStore, setActivePanel } = useStores();
   const { workspaces, activeId } = useStoreData(workspaceStore);
   const [editingId, setEditingId] = useState(null);
@@ -52,7 +52,12 @@ export function Sidebar() {
         {workspaces.map(ws => (
           <div
             key={ws.id}
-            onClick={() => editingId !== ws.id && workspaceStore.setActive(ws.id)}
+            onClick={() => {
+              if (editingId !== ws.id) {
+                workspaceStore.setActive(ws.id);
+                onMobileClose?.();
+              }
+            }}
             onDoubleClick={() => handleStartEdit(ws)}
             className={clsx(
               "group flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer transition-all duration-200",
@@ -92,15 +97,15 @@ export function Sidebar() {
 
       {/* Footer Tools */}
       <div className="p-4 border-t border-theme space-y-1">
-        <div onClick={() => setActivePanel('stats')} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
+        <div onClick={() => { setActivePanel('stats'); onMobileClose?.(); }} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
           <BarChart2 size={16} />
           <span className="text-sm">Stats</span>
         </div>
-        <div onClick={() => setActivePanel('audio')} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
+        <div onClick={() => { setActivePanel('audio'); onMobileClose?.(); }} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
           <Music size={16} />
           <span className="text-sm">Audio</span>
         </div>
-        <div onClick={() => setActivePanel('settings')} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
+        <div onClick={() => { setActivePanel('settings'); onMobileClose?.(); }} className="flex items-center gap-3 px-3 py-2 text-text-muted hover:text-text-main cursor-pointer rounded hover:bg-text-main/5 transition-colors">
           <Settings size={16} />
           <span className="text-sm">Settings</span>
         </div>
