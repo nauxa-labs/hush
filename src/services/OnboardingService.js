@@ -2,8 +2,11 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 export class OnboardingService {
-  constructor(settingsStore) {
+  constructor(settingsStore, workspaceStore, kanbanStore) {
     this.settingsStore = settingsStore;
+    this.workspaceStore = workspaceStore;
+    this.kanbanStore = kanbanStore;
+
     this.driver = driver({
       showProgress: true,
       animate: true,
@@ -34,7 +37,7 @@ export class OnboardingService {
         }
       },
       {
-        element: '.kanban-board', // We need to ensure this class exists on the board container
+        element: '.kanban-board',
         popover: {
           title: 'Kanban Board',
           description: 'Organize your tasks. Drag and drop cards between columns. Click a card to edit details.',
@@ -43,7 +46,7 @@ export class OnboardingService {
         }
       },
       {
-        element: '.timer-display', // Make sure this class is on the Timer
+        element: '.timer-display',
         popover: {
           title: 'Focus Timer',
           description: 'The heart of Hush. Start a Pomodoro session here. It tracks your stats automatically.',
@@ -52,7 +55,7 @@ export class OnboardingService {
         }
       },
       {
-        element: '.btn-focus-mode', // Ensure this class exists on the Focus Mode button
+        element: '.btn-focus-mode',
         popover: {
           title: 'Deep Focus Mode',
           description: 'Enter a distraction-free environment. Full screen, just you and your task.',
@@ -63,9 +66,28 @@ export class OnboardingService {
     ];
   }
 
+  _createSampleTask() {
+    const activeWs = this.workspaceStore.getActive();
+    if (!activeWs) return;
+
+    // Find the first column (usually "To Do")
+    const firstColumn = activeWs.columns[0];
+    if (!firstColumn) return;
+
+    // Check if there are already cards in this workspace
+    const existingCards = this.kanbanStore.getCardsByWorkspace(activeWs.id);
+    if (existingCards.length > 0) return; // Don't add sample if user already has tasks
+
+    // Create a sample task
+    this.kanbanStore.createCard(activeWs.id, firstColumn.id, '🎯 Complete this task to start focusing!');
+  }
+
   start() {
     const hasSeen = this.settingsStore.get('hasSeenOnboarding');
     if (!hasSeen && !this.driver.isActive()) {
+      // Create a sample task for context
+      this._createSampleTask();
+
       this.driver.setSteps(this.steps);
       this.driver.drive();
     }

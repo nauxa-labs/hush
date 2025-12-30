@@ -17,7 +17,7 @@ import { OnboardingService } from '../../services/OnboardingService';
 import { useStores, useStoreSelector } from '../../contexts/StoreContext';
 
 export function AppShell({ children }) {
-  const { settingsStore } = useStores();
+  const { settingsStore, workspaceStore, kanbanStore } = useStores();
   const theme = useStoreSelector(settingsStore, (state) => state.theme);
 
   // Shortcut help modal state
@@ -43,7 +43,7 @@ export function AppShell({ children }) {
 
   // Initialize Onboarding
   useEffect(() => {
-    const onboarding = new OnboardingService(settingsStore);
+    const onboarding = new OnboardingService(settingsStore, workspaceStore, kanbanStore);
     const timer = setTimeout(() => {
       onboarding.start();
     }, 1000);
